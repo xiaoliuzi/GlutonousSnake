@@ -53,7 +53,7 @@ class Snake(QtGui.QWidget):
     def drawSnake(self, qp, slist):
         qp.setBrush(QtGui.QColor(0,0,0))
         for i in range(0, len(slist)):
-            qp.drawRect(slist[i][0], slist[i][1], 60, 60)
+            qp.drawRect(Snake.slist[i][0], Snake.slist[i][1], 60, 60)
 
     def drawFood(self, qp):
         color = QtGui.QColor(255,0,0)
@@ -63,7 +63,7 @@ class Snake(QtGui.QWidget):
             x = random.choice(range(10, 710, 70))
             y = random.choice(range(10, 360, 70))
             fcoordinate_list = [x,y]
-            if fcoordinate_list in Snake.slist:
+            if fcoordinate_list in slist:
                 polymerrization = True
             else:
                 polymerrization = False
