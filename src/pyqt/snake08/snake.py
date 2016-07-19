@@ -1,13 +1,16 @@
 #!/usr/bin/python
 #-*- coding:utf-8 -*-
 """
-ZetCode PyQt4 tutorial
-This example draws three rectangles in three
-different colours.
+PyQt4 tutorial
 
-author: Jan Bodnar
-website: zetcode.com
-last edited: September 2011
+Description: This file is the gluttonous snake games.
+
+Author: xiaoliuzi
+
+date: 20160719
+
+email: genie.6qp@gmail.com
+
 """
 
 import sys, random
