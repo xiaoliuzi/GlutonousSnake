@@ -14,15 +14,15 @@ import sys, random
 from PyQt4 import QtGui, QtCore
 
 class Snake(QtGui.QWidget):
-    x = 10
-    y = 10
-    d = 0
-    nodelist = [10, 10, 0]#x,y,d
-    slist = [nodelist]
+    head_list = [80, 10]
+    body_list = [10, 10]
+    nodelist = [head_list, body_list]
+    slist = [head_list, body_list]
 
     def __init__(self):
         super(Snake, self).__init__()
         self.initUI()
+
     def initUI(self):
         self.setGeometry(300, 300, 1200, 600)
         self.setWindowTitle('Colours')
@@ -31,26 +31,23 @@ class Snake(QtGui.QWidget):
     def paintEvent(self, e):
         qp = QtGui.QPainter()
         qp.begin(self)
-        self.drawRectangles(qp, Snake.slist)
+
+        self.drawRectangleBorder(qp)
+        self.drawSnake(qp, Snake.slist)
         self.drawFood(qp)
+
         qp.end()
 
-    def drawRectangles(self, qp, slist):
-        color = QtGui.QColor(0, 0, 0)
-        color.setNamedColor('#d4d4d4')
-        qp.setPen(color)
+    def drawRectangleBorder(self, qp):
 
-        #qp.setBrush(QtGui.QColor(0, 0, 0))
-        
-        for i in range(0, len(slist)):
-            qp.drawRect(slist[i][i], 10, 60, 60)
-
-    def eraseRectangels(self, qp, nodelist):
-        color = QtGui.QColor(0, 0, 0)
-        color.setNamedColor('#d4d4d4')
+        color = QtGui.QColor(65, 105, 225)
         qp.setPen(color)
+        qp.drawRect(10, 10, 770, 420)
+
+    def drawSnake(self, qp, slist):
         qp.setBrush(QtGui.QColor(0,0,0))
-        qp.drawRect(nodelist[0], nodelist[1], 60, 60)
+        for i in range(0, len(slist)):
+            qp.drawRect(slist[i][0], slist[i][1], 60, 60)
 
     def drawFood(self, qp):
         color = QtGui.QColor(255,0,0)
@@ -79,4 +76,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+
 
