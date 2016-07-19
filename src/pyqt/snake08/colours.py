@@ -10,18 +10,18 @@ website: zetcode.com
 last edited: September 2011
 """
 
-import sys
+import sys, random
 from PyQt4 import QtGui, QtCore
 
-class Example(QtGui.QWidget):
+class Snake(QtGui.QWidget):
     x = 10
-    y = 15
+    y = 10
     d = 0
-    nodelist = [10, 15, 0]#x,y,d
-    
+    nodelist = [10, 10, 0]#x,y,d
     slist = [nodelist]
+
     def __init__(self):
-        super(Example, self).__init__()
+        super(Snake, self).__init__()
         self.initUI()
     def initUI(self):
         self.setGeometry(300, 300, 1200, 600)
@@ -31,7 +31,7 @@ class Example(QtGui.QWidget):
     def paintEvent(self, e):
         qp = QtGui.QPainter()
         qp.begin(self)
-        self.drawRectangles(qp, Example.slist)
+        self.drawRectangles(qp, Snake.slist)
         self.drawFood(qp)
         qp.end()
 
@@ -40,10 +40,17 @@ class Example(QtGui.QWidget):
         color.setNamedColor('#d4d4d4')
         qp.setPen(color)
 
-        qp.setBrush(QtGui.QColor(0, 0, 0))
+        #qp.setBrush(QtGui.QColor(0, 0, 0))
         
-        for i in range(10, 150, 70):
-            qp.drawRect(i, 15, 60, 60)
+        for i in range(0, len(slist)):
+            qp.drawRect(slist[i][i], 10, 60, 60)
+
+    def eraseRectangels(self, qp, nodelist):
+        color = QtGui.QColor(0, 0, 0)
+        color.setNamedColor('#d4d4d4')
+        qp.setPen(color)
+        qp.setBrush(QtGui.QColor(0,0,0))
+        qp.drawRect(nodelist[0], nodelist[1], 60, 60)
 
     def drawFood(self, qp):
         color = QtGui.QColor(255,0,0)
@@ -53,10 +60,21 @@ class Example(QtGui.QWidget):
         qp.setBrush(QtGui.QColor(200,0,0))
         qp.drawRect(200, 130, 60, 60)
 
+    def move(self, slist, direction):
+        if direction == 0:
+        #right direction->
+            for i in range(0, len(slist)):
+                sqlist[i][0] += 1
+            # last one disappear
+            sqlist[i][-1] 
+        elif direction == 3:
+        #left direction<-
+            for i in range(0, len(slist)):
+                sqlist[i][i]+1
 
 def main():
     app = QtGui.QApplication(sys.argv)
-    ex = Example()
+    ex = Snake()
     sys.exit(app.exec_())
 
 if __name__ == '__main__':
