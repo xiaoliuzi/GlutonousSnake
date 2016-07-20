@@ -25,7 +25,9 @@ class Food(QtGui.QWidget):
 
 class Snake(QtGui.QWidget):
     
-    qp = QtGui.QPainter()
+    bqp = QtGui.QPainter()
+    fqp = QtGui.QPainter()
+    sqp = QtGui.QPainter()
 
     head_list = [80, 10]
     body_list = [10, 10]
@@ -34,48 +36,52 @@ class Snake(QtGui.QWidget):
 
     def __init__(self):
         super(Snake, self).__init__()
-        self.initUI()
 
-    def initUI(self):
         self.setGeometry(300, 300, 1200, 600)
         self.setWindowTitle('Colours')
 
 
+        #for testing timer demo
+        food_timer = QtCore.QTimer(self)
+        food_timer.timeout.connect(self.update)#to update the paiter
+        #QtCore.QObject.connect(food_timer, QtCore.SIGNAL("timeout()"), partial(self.drawFood, self.fqp))
+        food_timer.start(1000)
+
         self.show()
 
+
     def paintEvent(self, e):
-        self.qp.begin(self)
+        self.bqp.begin(self)
+        self.fqp.begin(self)
+        self.sqp.begin(self)
 
+        self.drawFood(self.fqp)
+        #self.drawSnake(self, sqp, slist):
+        self.drawRectangleBorder(self.bqp)
 
+        self.bqp.end()
+        self.fqp.end()
+        self.sqp.end()
 
-
-        self.drawRectangleBorder(self.qp)
-
-
-        self.drawFood(self.qp)
-
-        self.qp.end()
-
-    def drawRectangleBorder(self, qp):
+    def drawRectangleBorder(self, bqp):
 
         color = QtGui.QColor(65, 105, 225)
-        qp.setPen(color)
-        qp.drawRect(10, 10, 760, 410)
+        self.bqp.setPen(color)
+        self.bqp.drawRect(10, 10, 760, 410)
 
     def drawSnake(self, qp, slist):
         qp.setBrush(QtGui.QColor(0,0,0))
         for i in range(0, len(slist)):
             qp.drawRect(slist[i][0], slist[i][1], 60, 60)
 
-    def drawFood(self, qp):
+    def drawFood(self, fqp):
         #qp = QtGui.QPainter()
         #self.qp.begin(self)
 
         print 'draw food'
+        #color = QtGui.QColor(255,0,0)
+        #qp.setPen(color)
 
-#'''
-        color = QtGui.QColor(255,0,0)
-        qp.setPen(color)
         polymerrization = True
         while polymerrization:
             x = random.choice(range(10, 710, 70))
@@ -86,12 +92,11 @@ class Snake(QtGui.QWidget):
             else:
                 polymerrization = False
 
-        qp.setBrush(QtGui.QColor(200,0,0))
-        qp.drawRect(x, y, 60, 60)
+        fqp.setBrush(QtGui.QColor(200,0,0))
+        fqp.drawRect(x, y, 60, 60)
 
-        self.update()
+        #self.update()
         #self.qp.end()
-#'''
 
 '''
     def move(self, slist, direction):
@@ -121,9 +126,3 @@ if __name__ == '__main__':
 
 
 
-"""
-        self.food_timer = QtCore.QTimer(self)
-        #food_timer.timeout.connect(self.drawFood(qp))
-        QtCore.QObject.connect(self.food_timer, QtCore.SIGNAL("timeout()"), partial(self.drawFood, self.qp))
-        self.food_timer.start(1000)
-"""
