@@ -34,6 +34,12 @@ class Snake(QtGui.QWidget):
     def __init__(self):
         super(Snake, self).__init__()
 
+        #for testing timer demo
+        food_timer = QtCore.QTimer(self)
+        food_timer.timeout.connect(self.update)#to update the paiter
+        #QtCore.QObject.connect(food_timer, QtCore.SIGNAL("timeout()"), partial(self.drawFood, self.fqp))
+        food_timer.start(1000)
+
         self.initUI()
 
     def initUI(self):
@@ -43,36 +49,37 @@ class Snake(QtGui.QWidget):
 
     def paintEvent(self, e):
         #qp = QtGui.QPainter()
-        bqp = QtGui.QPainter()
+        qp = QtGui.QPainter()
         #fqp = QtGui.QPainter()
         #sqp = QtGui.QPainter()
 
-        bqp.begin(self)
+        qp.begin(self)
         #bqp.begin(self)
         #fqp.begin(self)
         #sqp.begin(self)
 
-        #self.drawFood(fqp)
         #self.drawSnake(self, sqp, slist):
-        self.drawRectangleBorder(bqp)
+        self.drawRectangleBorder(qp)
+        self.drawFood(qp)
         #self.drawRectangleBorder(bqp)
 
-        bqp.end()
+        qp.end()
         #bqp.end()
         #fqp.end()
         #sqp.end()
 
-    def drawRectangleBorder(self, bqp):
+    #def drawRectangleBorder(self, bqp):
+    def drawRectangleBorder(self, qp):
         color = QtGui.QColor(0, 0, 255)
-        bqp.setPen(color)
-        bqp.drawRect(10, 10, 760, 410)
+        qp.setPen(color)
+        qp.drawRect(10, 10, 760, 410)
 
     def drawSnake(self, qp, slist):
         qp.setBrush(QtGui.QColor(0,0,0))
         for i in range(0, len(slist)):
             qp.drawRect(slist[i][0], slist[i][1], 60, 60)
 
-    def drawFood(self, fqp):
+    def drawFood(self, qp):
         #qp = QtGui.QPainter()
         #self.qp.begin(self)
 
@@ -90,8 +97,8 @@ class Snake(QtGui.QWidget):
             else:
                 polymerrization = False
 
-        fqp.setBrush(QtGui.QColor(200,0,0))
-        fqp.drawRect(x, y, 60, 60)
+        qp.setBrush(QtGui.QColor(200,0,0))
+        qp.drawRect(x, y, 60, 60)
 
         #self.update()
         #self.qp.end()
@@ -111,11 +118,6 @@ if __name__ == '__main__':
 
 
 '''
-        #for testing timer demo
-        food_timer = QtCore.QTimer(self)
-        food_timer.timeout.connect(self.update)#to update the paiter
-        #QtCore.QObject.connect(food_timer, QtCore.SIGNAL("timeout()"), partial(self.drawFood, self.fqp))
-        food_timer.start(1000)
 '''
 '''
     def move(self, slist, direction):
