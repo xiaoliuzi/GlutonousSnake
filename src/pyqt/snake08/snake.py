@@ -60,7 +60,16 @@ class Snake(QtGui.QWidget):
     def keyPressEvent(self, e):
         if e.key() == QtCore.Qt.Key_Escape:
             self.close()
-        #if e.key() == QtCore.Qt.Key_Left:
+        if e.key() == QtCore.Qt.Key_Right:
+            direction = 0
+        if e.key() == QtCore.Qt.Key_Up:
+            direction = 1
+        if e.key() == QtCore.Qt.Key_Down:
+            direction = 2
+        if e.key() == QtCore.Qt.Key_Left:
+            direction = 3
+
+        #print 'direction is ' , direction
 
 
     def drawRectangleBorder(self, qp):
