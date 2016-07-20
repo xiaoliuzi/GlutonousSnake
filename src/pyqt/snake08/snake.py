@@ -25,7 +25,7 @@ class Food(QtGui.QWidget):
 
 class Snake(QtGui.QWidget):
     
-
+    direction = 0
     head_list = [80, 10]
     body_list = [10, 10]
     slist = [head_list, body_list]
@@ -48,27 +48,21 @@ class Snake(QtGui.QWidget):
         self.show()
 
     def paintEvent(self, e):
-        #qp = QtGui.QPainter()
         qp = QtGui.QPainter()
-        #fqp = QtGui.QPainter()
-        #sqp = QtGui.QPainter()
 
         qp.begin(self)
-        #bqp.begin(self)
-        #fqp.begin(self)
-        #sqp.begin(self)
 
-        #self.drawSnake(self, sqp, slist):
         self.drawRectangleBorder(qp)
         self.drawFood(qp)
-        #self.drawRectangleBorder(bqp)
 
         qp.end()
-        #bqp.end()
-        #fqp.end()
-        #sqp.end()
 
-    #def drawRectangleBorder(self, bqp):
+    def keyPressEvent(self, e):
+        if e.key() == QtCore.Qt.Key_Escape:
+            self.close()
+        #if e.key() == QtCore.Qt.Key_Left:
+
+
     def drawRectangleBorder(self, qp):
         color = QtGui.QColor(0, 0, 255)
         qp.setPen(color)
@@ -80,12 +74,8 @@ class Snake(QtGui.QWidget):
             qp.drawRect(slist[i][0], slist[i][1], 60, 60)
 
     def drawFood(self, qp):
-        #qp = QtGui.QPainter()
-        #self.qp.begin(self)
 
         print 'draw food'
-        #color = QtGui.QColor(255,0,0)
-        #qp.setPen(color)
 
         polymerrization = True
         while polymerrization:
@@ -99,9 +89,6 @@ class Snake(QtGui.QWidget):
 
         qp.setBrush(QtGui.QColor(200,0,0))
         qp.drawRect(x, y, 60, 60)
-
-        #self.update()
-        #self.qp.end()
 
 
 def main():
