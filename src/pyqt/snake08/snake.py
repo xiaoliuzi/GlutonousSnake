@@ -15,15 +15,22 @@ email: genie.6qp@gmail.com
 
 import sys, random
 from PyQt4 import QtGui, QtCore
+from PyQt4.QtCore import QTimer
+
+from functools import partial # to pass the arguments for signal and slots
 
 class Food(QtGui.QWidget):
     xrandom_list = [10, 80, 150, 220, 290, 360, 430, 500, 570, 640, 710 ]
     yrandom_list = [10, 80, 150, 220, 290, 360]
+
 class Snake(QtGui.QWidget):
     
+    qp = QtGui.QPainter()
+
     head_list = [80, 10]
     body_list = [10, 10]
     slist = [head_list, body_list]
+
 
     def __init__(self):
         super(Snake, self).__init__()
@@ -32,17 +39,22 @@ class Snake(QtGui.QWidget):
     def initUI(self):
         self.setGeometry(300, 300, 1200, 600)
         self.setWindowTitle('Colours')
+
+
         self.show()
 
     def paintEvent(self, e):
-        qp = QtGui.QPainter()
-        qp.begin(self)
+        self.qp.begin(self)
 
-        self.drawRectangleBorder(qp)
-        self.drawSnake(qp, Snake.slist)
-        self.drawFood(qp)
 
-        qp.end()
+
+
+        self.drawRectangleBorder(self.qp)
+
+
+        self.drawFood(self.qp)
+
+        self.qp.end()
 
     def drawRectangleBorder(self, qp):
 
@@ -56,6 +68,12 @@ class Snake(QtGui.QWidget):
             qp.drawRect(slist[i][0], slist[i][1], 60, 60)
 
     def drawFood(self, qp):
+        #qp = QtGui.QPainter()
+        #self.qp.begin(self)
+
+        print 'draw food'
+
+#'''
         color = QtGui.QColor(255,0,0)
         qp.setPen(color)
         polymerrization = True
@@ -71,6 +89,11 @@ class Snake(QtGui.QWidget):
         qp.setBrush(QtGui.QColor(200,0,0))
         qp.drawRect(x, y, 60, 60)
 
+        self.update()
+        #self.qp.end()
+#'''
+
+'''
     def move(self, slist, direction):
         if direction == 0:
         #right direction->
@@ -83,12 +106,24 @@ class Snake(QtGui.QWidget):
             for i in range(0, len(slist)):
                 sqlist[i][i]+1
 
+'''
+
 def main():
     app = QtGui.QApplication(sys.argv)
     ex = Snake()
+
+
     sys.exit(app.exec_())
 
 if __name__ == '__main__':
     main()
 
 
+
+
+"""
+        self.food_timer = QtCore.QTimer(self)
+        #food_timer.timeout.connect(self.drawFood(qp))
+        QtCore.QObject.connect(self.food_timer, QtCore.SIGNAL("timeout()"), partial(self.drawFood, self.qp))
+        self.food_timer.start(1000)
+"""
