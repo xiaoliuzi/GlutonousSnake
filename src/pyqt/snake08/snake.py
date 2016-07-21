@@ -59,6 +59,7 @@ class Snake(QtGui.QWidget):
         self.drawFood(qp)
         self.drawSnake(qp, self.slist)
         self.move(self.slist, self.direction)
+        self.collide(qp, self.slist, self.direction)
 
         qp.end()
 
@@ -101,6 +102,16 @@ class Snake(QtGui.QWidget):
             slist.insert(0, head_list)
 
         print "key pressed number: " , direction
+
+    def collide(self, qp, slist, direction):
+        if slist[0][0] > 710 or slist[0][0] < 10 :
+            qp.setBrush(QtGui.QColor(0,0,255))
+            for i in range(0, len(slist)):
+                qp.drawRect(slist[i][0], slist[i][1], 60, 60)
+        elif slist[0][1] > 360 or slist[0][1] < 10 :
+            qp.setBrush(QtGui.QColor(0,0,255))
+            for i in range(0, len(slist)):
+                qp.drawRect(slist[i][0], slist[i][1], 60, 60)
 
     def drawRectangleBorder(self, qp):
         color = QtGui.QColor(0, 0, 255)
