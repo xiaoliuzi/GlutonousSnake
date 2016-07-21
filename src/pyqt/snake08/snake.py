@@ -38,13 +38,16 @@ class Snake(QtGui.QWidget):
         food_timer = QtCore.QTimer(self)
         food_timer.timeout.connect(self.update)#to update the paiter
         #QtCore.QObject.connect(food_timer, QtCore.SIGNAL("timeout()"), partial(self.drawFood, self.fqp))
-        food_timer.start(1000)
+        food_timer.start(600)
 
         self.initUI()
 
     def initUI(self):
         self.setGeometry(300, 300, 1200, 600)
         self.setWindowTitle('Glustonnous Snake')
+
+        
+
         self.show()
 
     def paintEvent(self, e):
@@ -54,6 +57,8 @@ class Snake(QtGui.QWidget):
 
         self.drawRectangleBorder(qp)
         self.drawFood(qp)
+        self.drawSnake(qp, self.slist)
+        self.move(self.slist, self.direction)
 
         qp.end()
 
@@ -61,16 +66,41 @@ class Snake(QtGui.QWidget):
         if e.key() == QtCore.Qt.Key_Escape:
             self.close()
         if e.key() == QtCore.Qt.Key_Right:
-            direction = 0
+            self.direction = 0
         if e.key() == QtCore.Qt.Key_Up:
-            direction = 1
+            self.direction = 1
         if e.key() == QtCore.Qt.Key_Down:
-            direction = 2
+            self.direction = 2
         if e.key() == QtCore.Qt.Key_Left:
-            direction = 3
+            self.direction = 3
 
-        #print 'direction is ' , direction
+        print 'direction is ' , self.direction
 
+
+    def move(self, slist, direction):
+        #right direction right
+        if direction == 0:
+            # last one disappear
+            del slist[-1]
+            head_list = [slist[0][0]+70, slist[0][1]]
+            slist.insert(0, head_list)
+        elif direction == 1:
+        #left direction up
+            del slist[-1]
+            head_list = [slist[0][0], slist[0][1]-70]
+            slist.insert(0, head_list)
+        elif direction == 2:
+        #left direction down
+            del slist[-1]
+            head_list = [slist[0][0], slist[0][1]+70]
+            slist.insert(0, head_list)
+        elif direction == 3:
+        #left direction left
+            del slist[-1]
+            head_list = [slist[0][0]-70, slist[0][1]]
+            slist.insert(0, head_list)
+
+        print "key pressed number: " , direction
 
     def drawRectangleBorder(self, qp):
         color = QtGui.QColor(0, 0, 255)
@@ -113,19 +143,3 @@ if __name__ == '__main__':
 
 
 
-'''
-'''
-'''
-    def move(self, slist, direction):
-        if direction == 0:
-        #right direction->
-            for i in range(0, len(slist)):
-                sqlist[i][0] += 1
-            # last one disappear
-            sqlist[i][-1] 
-        elif direction == 3:
-        #left direction<-
-            for i in range(0, len(slist)):
-                sqlist[i][i]+1
-
-'''
