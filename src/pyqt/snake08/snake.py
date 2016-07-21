@@ -79,29 +79,32 @@ class Snake(QtGui.QWidget):
 
 
     def move(self, slist, direction):
-        #right direction right
-        if direction == 0:
-            # last one disappear
-            del slist[-1]
-            head_list = [slist[0][0]+70, slist[0][1]]
-            slist.insert(0, head_list)
-        elif direction == 1:
-        #left direction up
-            del slist[-1]
-            head_list = [slist[0][0], slist[0][1]-70]
-            slist.insert(0, head_list)
-        elif direction == 2:
-        #left direction down
-            del slist[-1]
-            head_list = [slist[0][0], slist[0][1]+70]
-            slist.insert(0, head_list)
-        elif direction == 3:
-        #left direction left
-            del slist[-1]
-            head_list = [slist[0][0]-70, slist[0][1]]
-            slist.insert(0, head_list)
+        if (slist[0][0] <= 710 and slist[0][0] >= 10) and (slist[0][1] >= 10 and slist[0][1] <= 360):
+            #right direction right
+            if direction == 0:
+                # last one disappear
+                del slist[-1]
+                head_list = [slist[0][0]+70, slist[0][1]]
+                slist.insert(0, head_list)
+            elif direction == 1:
+            #left direction up
+                del slist[-1]
+                head_list = [slist[0][0], slist[0][1]-70]
+                slist.insert(0, head_list)
+            elif direction == 2:
+            #left direction down
+                del slist[-1]
+                head_list = [slist[0][0], slist[0][1]+70]
+                slist.insert(0, head_list)
+            elif direction == 3:
+            #left direction left
+                del slist[-1]
+                head_list = [slist[0][0]-70, slist[0][1]]
+                slist.insert(0, head_list)
 
-        print "key pressed number: " , direction
+            print "key pressed number: " , direction
+        else:
+            print " beyond border"
 
     def collide(self, qp, slist, direction):
         if slist[0][0] > 710 or slist[0][0] < 10 :
@@ -124,9 +127,7 @@ class Snake(QtGui.QWidget):
             qp.drawRect(slist[i][0], slist[i][1], 60, 60)
 
     def drawFood(self, qp):
-
-        print 'draw food'
-
+        #print 'draw food'
         polymerrization = True
         while polymerrization:
             x = random.choice(range(10, 710, 70))
