@@ -51,7 +51,7 @@ class Snake(QtGui.QWidget):
 
     def initUI(self):
         self.setGeometry(300, 300, 1200, 600)
-        self.setWindowTitle('Gluttonous Snake')
+        self.setWindowTitle('Glutonous Snake')
         
 
         self.show()
