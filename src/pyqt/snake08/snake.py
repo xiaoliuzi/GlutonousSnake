@@ -30,6 +30,8 @@ class Snake(QtGui.QWidget):
     body_list = [10, 10]
     slist = [head_list, body_list]
     fcoordinate_list = [0,0]
+    qp = QtGui.QPainter()
+    fqp = QtGui.QPainter()
 
 
     def __init__(self):
@@ -41,28 +43,33 @@ class Snake(QtGui.QWidget):
         #QtCore.QObject.connect(food_timer, QtCore.SIGNAL("timeout()"), partial(self.drawFood, self.fqp))
         food_timer.start(600)
 
+        self.fqp.begin(self)
+        self.drawInitFood(self.fqp)
+        self.fqp.end()
+
         self.initUI()
 
     def initUI(self):
         self.setGeometry(300, 300, 1200, 600)
         self.setWindowTitle('Glustonnous Snake')
-
         
 
         self.show()
 
     def paintEvent(self, e):
-        qp = QtGui.QPainter()
+        #qp = QtGui.QPainter()
 
-        qp.begin(self)
+        self.qp.begin(self)
+        self.drawRectangleBorder(self.qp)
 
-        self.drawRectangleBorder(qp)
-        self.drawFood(qp)
-        self.drawSnake(qp, self.slist)
+        self.drawInitFood(self.qp)
+#        self.drawInitFood(self.qp)
+        self.drawSnake(self.qp, self.slist)
+
         self.move(self.slist, self.direction)
-        #self.collide(qp, self.slist, self.direction)
+        self.collide(self.qp, self.slist, self.direction)
 
-        qp.end()
+        self.qp.end()
 
     def keyPressEvent(self, e):
         if e.key() == QtCore.Qt.Key_Escape:
@@ -108,8 +115,13 @@ class Snake(QtGui.QWidget):
             print " beyond border"
 
     def collide(self, qp, slist, direction):
-        #if  
-        print 'hello'
+        #if (slist[0][0] == fcoordinate[0]) and (slist[0][1] == fcoordinate[1]):
+        if (slist[0][0] == 220) and (slist[0][1] == 220):
+            print 'hello'
+            qp.setBrush(QtGui.QColor(255,255,0))
+            qp.drawRect(220, 220, 60, 60)
+            self.drawFood(qp)
+
        # if slist[0][0] > 710 or slist[0][0] < 10 :
        #     qp.setBrush(QtGui.QColor(0,0,255))
        #     for i in range(0, len(slist)):
@@ -120,14 +132,19 @@ class Snake(QtGui.QWidget):
        #         qp.drawRect(slist[i][0], slist[i][1], 60, 60)
 
     def drawRectangleBorder(self, qp):
-        color = QtGui.QColor(0, 0, 255)
-        qp.setPen(color)
+        color = QtGui.QColor(255, 255, 0)
+        #qp.setPen(color)
+        qp.setBrush(color)
         qp.drawRect(10, 10, 760, 410)
 
     def drawSnake(self, qp, slist):
         qp.setBrush(QtGui.QColor(0,0,0))
         for i in range(0, len(slist)):
             qp.drawRect(slist[i][0], slist[i][1], 60, 60)
+
+    def drawInitFood(self, qp):
+        qp.setBrush(QtGui.QColor(200, 0, 0))
+        qp.drawRect(220, 220, 60, 60)
 
     def drawFood(self, qp):
         #print 'draw food'
@@ -143,6 +160,7 @@ class Snake(QtGui.QWidget):
 
         qp.setBrush(QtGui.QColor(200,0,0))
         qp.drawRect(x, y, 60, 60)
+        #qp.drawRect(220, 220, 60, 60)
 
 
 def main():
