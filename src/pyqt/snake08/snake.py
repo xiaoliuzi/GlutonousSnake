@@ -14,8 +14,8 @@ email: genie.6qp@gmail.com
 """
 
 import sys, random
-from PyQt4 import QtGui, QtCore
-from PyQt4.QtCore import QTimer
+from PyQt5 import QtGui, QtCore
+from PyQt5.QtCore import QTimer
 
 #from functools import partial # to pass the arguments for signal and slots
 
@@ -41,7 +41,7 @@ class Snake(QtGui.QWidget):
         food_timer = QtCore.QTimer(self)
         food_timer.timeout.connect(self.update)#to update the paiter
         #QtCore.QObject.connect(food_timer, QtCore.SIGNAL("timeout()"), partial(self.drawFood, self.fqp))
-        food_timer.start(200)
+        food_timer.start(800)
 
         #self.fqp.begin(self)
         #self.drawInitFood(self.fqp)
@@ -69,7 +69,7 @@ class Snake(QtGui.QWidget):
         self.drawSnake(self.qp, self.slist)
 
         self.move(self.slist, self.direction)
-        self.collide(self.qp, self.slist, self.direction)
+        self.collide(self.qp, self.slist)
 
         self.qp.end()
 
@@ -85,7 +85,7 @@ class Snake(QtGui.QWidget):
         if e.key() == QtCore.Qt.Key_Left:
             self.direction = 3
 
-        print 'direction is ' , self.direction
+        #print 'direction is ' , self.direction
 
 
     def move(self, slist, direction):
@@ -112,14 +112,14 @@ class Snake(QtGui.QWidget):
                 head_list = [slist[0][0]-70, slist[0][1]]
                 slist.insert(0, head_list)
 
-            print "key pressed number: " , direction
-        else:
-            print " beyond border"
+            #print "key pressed number: " , direction
+        #else:
+            #print " beyond border"
 
-    def collide(self, qp, slist, direction):
+    def collide(self, qp, slist):
         # collide with food
+        #print 'collision'
         if (slist[0][0] == self.fcoordinate_list[0]) and (slist[0][1] == self.fcoordinate_list[1]):
-            print 'collision'
             #snake increases
             slist.insert(0, self.fcoordinate_list)
 
