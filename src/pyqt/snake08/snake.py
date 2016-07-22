@@ -29,7 +29,7 @@ class Snake(QtGui.QWidget):
     head_list = [80, 10]
     body_list = [10, 10]
     slist = [head_list, body_list]
-    fcoordinate_list = [0,0]
+    fcoordinate_list = [220,220]
     qp = QtGui.QPainter()
     fqp = QtGui.QPainter()
 
@@ -115,26 +115,16 @@ class Snake(QtGui.QWidget):
             print " beyond border"
 
     def collide(self, qp, slist, direction):
-        #if (slist[0][0] == fcoordinate[0]) and (slist[0][1] == fcoordinate[1]):
-        if (slist[0][0] == 220) and (slist[0][1] == 220):
+        if (slist[0][0] == self.fcoordinate_list[0]) and (slist[0][1] == self.fcoordinate_list[1]):
             print 'hello'
-            qp.setBrush(QtGui.QColor(255,255,0))
-            qp.drawRect(220, 220, 60, 60)
             self.drawFood(qp)
 
-       # if slist[0][0] > 710 or slist[0][0] < 10 :
-       #     qp.setBrush(QtGui.QColor(0,0,255))
-       #     for i in range(0, len(slist)):
-       #         qp.drawRect(slist[i][0], slist[i][1], 60, 60)
-       # elif slist[0][1] > 360 or slist[0][1] < 10 :
-       #     qp.setBrush(QtGui.QColor(0,0,255))
-       #     for i in range(0, len(slist)):
-       #         qp.drawRect(slist[i][0], slist[i][1], 60, 60)
 
     def drawRectangleBorder(self, qp):
-        color = QtGui.QColor(255, 255, 0)
-        #qp.setPen(color)
-        qp.setBrush(color)
+        color = QtGui.QColor(0, 0, 255)
+        #color = QtGui.QColor(255, 255, 0)
+        qp.setPen(color)
+        #qp.setBrush(color)
         qp.drawRect(10, 10, 760, 410)
 
     def drawSnake(self, qp, slist):
