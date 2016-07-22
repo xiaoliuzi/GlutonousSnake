@@ -41,17 +41,17 @@ class Snake(QtGui.QWidget):
         food_timer = QtCore.QTimer(self)
         food_timer.timeout.connect(self.update)#to update the paiter
         #QtCore.QObject.connect(food_timer, QtCore.SIGNAL("timeout()"), partial(self.drawFood, self.fqp))
-        food_timer.start(600)
+        food_timer.start(200)
 
-        self.fqp.begin(self)
-        self.drawInitFood(self.fqp)
-        self.fqp.end()
+        #self.fqp.begin(self)
+        #self.drawInitFood(self.fqp)
+        #self.fqp.end()
 
         self.initUI()
 
     def initUI(self):
         self.setGeometry(300, 300, 1200, 600)
-        self.setWindowTitle('Glustonnous Snake')
+        self.setWindowTitle('Gluttonous Snake')
         
 
         self.show()
@@ -62,7 +62,9 @@ class Snake(QtGui.QWidget):
         self.qp.begin(self)
         self.drawRectangleBorder(self.qp)
 
-        self.drawInitFood(self.qp)
+        self.drawFood(self.qp)
+        #self.drawInitFood(self.fqp)
+        #self.drawInitFood(self.qp)
 #        self.drawInitFood(self.qp)
         self.drawSnake(self.qp, self.slist)
 
@@ -117,13 +119,13 @@ class Snake(QtGui.QWidget):
     def collide(self, qp, slist, direction):
         # collide with food
         if (slist[0][0] == self.fcoordinate_list[0]) and (slist[0][1] == self.fcoordinate_list[1]):
-            print 'hello'
+            print 'collision'
             #snake increases
             slist.insert(0, self.fcoordinate_list)
 
             #draw next food
+            self.generateFoodPos()
             self.drawFood(qp)
-
 
 
     def drawRectangleBorder(self, qp):
@@ -144,6 +146,12 @@ class Snake(QtGui.QWidget):
 
     def drawFood(self, qp):
         #print 'draw food'
+        qp.setBrush(QtGui.QColor(200,0,0))
+        qp.drawRect(self.fcoordinate_list[0], self.fcoordinate_list[1], 60, 60)
+        #qp.drawRect(220, 220, 60, 60)
+
+    def generateFoodPos(self):
+        #generate random position of food.
         polymerrization = True
         while polymerrization:
             x = random.choice(range(10, 710, 70))
@@ -153,10 +161,6 @@ class Snake(QtGui.QWidget):
                 polymerrization = True
             else:
                 polymerrization = False
-
-        qp.setBrush(QtGui.QColor(200,0,0))
-        qp.drawRect(x, y, 60, 60)
-        #qp.drawRect(220, 220, 60, 60)
 
 
 def main():
