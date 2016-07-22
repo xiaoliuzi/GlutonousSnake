@@ -9,36 +9,41 @@ Author: xiaoliuzi
 
 date: 20160719
 
-email: genie.6qp@gmail.com
+email: genie.6qp@gmail.co:30
+
 
 """
 
 import sys, random
-from PyQt5 import QtGui, QtCore
-from PyQt5.QtCore import QTimer
+from PyQt5.QtWidgets import QWidget, QApplication
+from PyQt5.QtGui import QPainter, QColor, QFont
+from PyQt5.QtCore import Qt, QTimer
+
+#from PyQt5 import QtGui, QtCore
+#from PyQt5.QtCore import QTimer
 
 #from functools import partial # to pass the arguments for signal and slots
 
-class Food(QtGui.QWidget):
+class Food(QWidget):
     xrandom_list = [10, 80, 150, 220, 290, 360, 430, 500, 570, 640, 710 ]
     yrandom_list = [10, 80, 150, 220, 290, 360]
 
-class Snake(QtGui.QWidget):
+class Snake(QWidget):
     
     direction = 0
     head_list = [80, 10]
     body_list = [10, 10]
     slist = [head_list, body_list]
     fcoordinate_list = [220,220]
-    qp = QtGui.QPainter()
-    fqp = QtGui.QPainter()
+    qp = QPainter()
+    fqp = QPainter()
 
 
     def __init__(self):
         super(Snake, self).__init__()
 
         #for testing timer demo
-        food_timer = QtCore.QTimer(self)
+        food_timer = QTimer(self)
         food_timer.timeout.connect(self.update)#to update the paiter
         #QtCore.QObject.connect(food_timer, QtCore.SIGNAL("timeout()"), partial(self.drawFood, self.fqp))
         food_timer.start(800)
@@ -74,15 +79,15 @@ class Snake(QtGui.QWidget):
         self.qp.end()
 
     def keyPressEvent(self, e):
-        if e.key() == QtCore.Qt.Key_Escape:
+        if e.key() == Qt.Key_Escape:
             self.close()
-        if e.key() == QtCore.Qt.Key_Right:
+        if e.key() == Qt.Key_Right:
             self.direction = 0
-        if e.key() == QtCore.Qt.Key_Up:
+        if e.key() == Qt.Key_Up:
             self.direction = 1
-        if e.key() == QtCore.Qt.Key_Down:
+        if e.key() == Qt.Key_Down:
             self.direction = 2
-        if e.key() == QtCore.Qt.Key_Left:
+        if e.key() == Qt.Key_Left:
             self.direction = 3
 
         #print 'direction is ' , self.direction
@@ -129,24 +134,24 @@ class Snake(QtGui.QWidget):
 
 
     def drawRectangleBorder(self, qp):
-        color = QtGui.QColor(0, 0, 255)
+        color = QColor(0, 0, 255)
         #color = QtGui.QColor(255, 255, 0)
         qp.setPen(color)
         #qp.setBrush(color)
         qp.drawRect(10, 10, 760, 410)
 
     def drawSnake(self, qp, slist):
-        qp.setBrush(QtGui.QColor(0,0,0))
+        qp.setBrush(QColor(0,0,0))
         for i in range(0, len(slist)):
             qp.drawRect(slist[i][0], slist[i][1], 60, 60)
 
     def drawInitFood(self, qp):
-        qp.setBrush(QtGui.QColor(200, 0, 0))
+        qp.setBrush(QColor(200, 0, 0))
         qp.drawRect(220, 220, 60, 60)
 
     def drawFood(self, qp):
         #print 'draw food'
-        qp.setBrush(QtGui.QColor(200,0,0))
+        qp.setBrush(QColor(200,0,0))
         qp.drawRect(self.fcoordinate_list[0], self.fcoordinate_list[1], 60, 60)
         #qp.drawRect(220, 220, 60, 60)
 
@@ -163,16 +168,11 @@ class Snake(QtGui.QWidget):
                 polymerrization = False
 
 
-def main():
-    app = QtGui.QApplication(sys.argv)
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
     ex = Snake()
 
-
     sys.exit(app.exec_())
-
-if __name__ == '__main__':
-    main()
-
 
 
 
