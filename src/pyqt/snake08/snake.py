@@ -115,9 +115,15 @@ class Snake(QtGui.QWidget):
             print " beyond border"
 
     def collide(self, qp, slist, direction):
+        # collide with food
         if (slist[0][0] == self.fcoordinate_list[0]) and (slist[0][1] == self.fcoordinate_list[1]):
             print 'hello'
+            #snake increases
+            slist.insert(0, self.fcoordinate_list)
+
+            #draw next food
             self.drawFood(qp)
+
 
 
     def drawRectangleBorder(self, qp):
