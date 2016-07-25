@@ -24,13 +24,11 @@ from PyQt5.QtCore import Qt, QTimer
 
 #from functools import partial # to pass the arguments for signal and slots
 
-class Food(QWidget):
-    xrandom_list = [10, 80, 150, 220, 290, 360, 430, 500, 570, 640, 710 ]
-    yrandom_list = [10, 80, 150, 220, 290, 360]
 
 class Snake(QWidget):
     
     direction = 0
+    snake_food_size = 60
     head_list = [80, 10]
     body_list = [10, 10]
     slist = [head_list, body_list]
@@ -44,13 +42,9 @@ class Snake(QWidget):
 
         #for testing timer demo
         food_timer = QTimer(self)
-        food_timer.timeout.connect(self.update)#to update the paiter
-        #QtCore.QObject.connect(food_timer, QtCore.SIGNAL("timeout()"), partial(self.drawFood, self.fqp))
+        food_timer.timeout.connect(self.myupdate)#to update the paiter
         food_timer.start(800)
 
-        #self.fqp.begin(self)
-        #self.drawInitFood(self.fqp)
-        #self.fqp.end()
 
         self.initUI()
 
@@ -62,7 +56,8 @@ class Snake(QWidget):
         self.show()
 
     def paintEvent(self, e):
-        #qp = QtGui.QPainter()
+
+        print ('paintevent')
 
         self.qp.begin(self)
         self.drawRectangleBorder(self.qp)
@@ -73,8 +68,8 @@ class Snake(QWidget):
 #        self.drawInitFood(self.qp)
         self.drawSnake(self.qp, self.slist)
 
-        self.move(self.slist, self.direction)
-        self.collide(self.qp, self.slist)
+        #self.move(self.slist, self.direction)
+        #self.collide(self.qp, self.slist)
 
         self.qp.end()
 
@@ -91,7 +86,20 @@ class Snake(QWidget):
             self.direction = 3
 
         #print 'direction is ' , self.direction
+    def myupdate(self):
+        print ('myupdate')
+    
+   #     self.qp.begin(self)
+    #    self.drawRectangleBorder(self.qp)
+#
+        self.move(self.slist, self.direction)
+#        self.collide(self.qp, self.slist)
 
+#        self.drawFood(self.qp)
+#        self.drawSnake(self.qp, self.slist)
+
+
+        self.qp.end()
 
     def move(self, slist, direction):
         if (slist[0][0] <= 710 and slist[0][0] >= 10) and (slist[0][1] >= 10 and slist[0][1] <= 360):
@@ -143,17 +151,16 @@ class Snake(QWidget):
     def drawSnake(self, qp, slist):
         qp.setBrush(QColor(0,0,0))
         for i in range(0, len(slist)):
-            qp.drawRect(slist[i][0], slist[i][1], 60, 60)
+            qp.drawRect(slist[i][0], slist[i][1], self.snake_food_size, self.snake_food_size)
 
     def drawInitFood(self, qp):
         qp.setBrush(QColor(200, 0, 0))
-        qp.drawRect(220, 220, 60, 60)
+        qp.drawRect(220, 220, self.snake_food_size, self.snake_food_size)
 
     def drawFood(self, qp):
         #print 'draw food'
         qp.setBrush(QColor(200,0,0))
-        qp.drawRect(self.fcoordinate_list[0], self.fcoordinate_list[1], 60, 60)
-        #qp.drawRect(220, 220, 60, 60)
+        qp.drawRect(self.fcoordinate_list[0], self.fcoordinate_list[1], self.snake_food_size, self.snake_food_size)
 
     def generateFoodPos(self):
         #generate random position of food.
