@@ -79,7 +79,7 @@ class Snake(QWidget):
     
         self.move(self.slist, self.direction)
         self.repaint()
-#        self.collide(self.qp, self.slist)
+        self.collide(self.qp, self.slist)
 
 
     def move(self, slist, direction):
