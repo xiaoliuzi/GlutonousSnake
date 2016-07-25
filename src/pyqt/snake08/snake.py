@@ -18,7 +18,7 @@ import sys, random
 
 from PyQt5.QtWidgets import QWidget, QApplication
 from PyQt5.QtGui import QPainter, QColor
-from PyQt5.QtCore import Qt, QTimer
+from PyQt5.QtCore import Qt, QTimer, QRect
 
 class Snake(QWidget):
     
@@ -78,7 +78,9 @@ class Snake(QWidget):
         print ('myupdate')
     
         self.move(self.slist, self.direction)
-        self.repaint()
+        #self.repaint()
+        qrect = QRect(10, 10, 760, 410)
+        self.update(qrect)
         self.collide(self.qp, self.slist)
 
 
