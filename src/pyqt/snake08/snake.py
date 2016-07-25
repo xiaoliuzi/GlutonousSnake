@@ -15,27 +15,20 @@ email: genie.6qp@gmail.co:30
 """
 
 import sys, random
+
 from PyQt5.QtWidgets import QWidget, QApplication
-from PyQt5.QtGui import QPainter, QColor, QFont
+from PyQt5.QtGui import QPainter, QColor
 from PyQt5.QtCore import Qt, QTimer
-
-#from PyQt5 import QtGui, QtCore
-#from PyQt5.QtCore import QTimer
-
-#from functools import partial # to pass the arguments for signal and slots
-
 
 class Snake(QWidget):
     
-    direction = 0
-    snake_food_size = 60
-    head_list = [80, 10]
-    body_list = [10, 10]
-    slist = [head_list, body_list]
-    fcoordinate_list = [220,220]
-    qp = QPainter()
-    fqp = QPainter()
-
+    direction = 0 # initial snake move direction
+    snake_food_size = 60 # initial snake or food size
+    head_list = [80, 10] # initial snake head
+    body_list = [10, 10] # initial snake body
+    slist = [head_list, body_list]#initial snake coordinate
+    fcoordinate_list = [220,220]#initial food coordinate
+    qp = QPainter() # general painter
 
     def __init__(self):
         super(Snake, self).__init__()
@@ -45,33 +38,28 @@ class Snake(QWidget):
         food_timer.timeout.connect(self.myupdate)#to update the paiter
         food_timer.start(800)
 
-
         self.initUI()
 
     def initUI(self):
         self.setGeometry(300, 300, 1200, 600)
         self.setWindowTitle('Glutonous Snake')
-        
 
         self.show()
 
     def paintEvent(self, e):
-
         print ('paintevent')
-
+        #painter can be used in paintEvent() only.
         self.qp.begin(self)
         self.drawRectangleBorder(self.qp)
 
         self.drawFood(self.qp)
-        #self.drawInitFood(self.fqp)
-        #self.drawInitFood(self.qp)
-#        self.drawInitFood(self.qp)
         self.drawSnake(self.qp, self.slist)
 
         #self.move(self.slist, self.direction)
         #self.collide(self.qp, self.slist)
 
         self.qp.end()
+
 
     def keyPressEvent(self, e):
         if e.key() == Qt.Key_Escape:
@@ -89,17 +77,10 @@ class Snake(QWidget):
     def myupdate(self):
         print ('myupdate')
     
-   #     self.qp.begin(self)
-    #    self.drawRectangleBorder(self.qp)
-#
         self.move(self.slist, self.direction)
+        self.repaint()
 #        self.collide(self.qp, self.slist)
 
-#        self.drawFood(self.qp)
-#        self.drawSnake(self.qp, self.slist)
-
-
-        self.qp.end()
 
     def move(self, slist, direction):
         if (slist[0][0] <= 710 and slist[0][0] >= 10) and (slist[0][1] >= 10 and slist[0][1] <= 360):
@@ -143,9 +124,7 @@ class Snake(QWidget):
 
     def drawRectangleBorder(self, qp):
         color = QColor(0, 0, 255)
-        #color = QtGui.QColor(255, 255, 0)
         qp.setPen(color)
-        #qp.setBrush(color)
         qp.drawRect(10, 10, 760, 410)
 
     def drawSnake(self, qp, slist):
@@ -180,6 +159,4 @@ if __name__ == '__main__':
     ex = Snake()
 
     sys.exit(app.exec_())
-
-
 
