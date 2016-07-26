@@ -21,6 +21,7 @@ from PyQt5.QtGui import QPainter, QColor
 from PyQt5.QtCore import Qt, QTimer, QRect
 
 class Snake(QWidget):
+    templist = [0,0]
     count = 0
     x_init = 10
     y_init = 10
@@ -58,8 +59,8 @@ class Snake(QWidget):
         self.qp.begin(self)
         self.drawRectangleBorder(self.qp)
 
-        self.drawFood(self.qp)
         self.drawSnake(self.qp, self.slist)
+        self.drawFood(self.qp)
 
         self.qp.end()
 
@@ -107,11 +108,13 @@ class Snake(QWidget):
                 elif (direction == 2):
                 #left direction down
                     del slist[-1]
+                    #head_list = [slist[0][0], slist[0][1]-70]
                     head_list = [slist[0][0], slist[0][1]+70]
                     slist.insert(0, head_list)
                 elif (direction == 3):
                 #left direction left
                     del slist[-1]
+                    #head_list = [slist[0][0], slist[0][1]-70]
                     head_list = [slist[0][0]-70, slist[0][1]]
                     slist.insert(0, head_list)
             else:
@@ -123,22 +126,22 @@ class Snake(QWidget):
                 elif (self.old_direction == 1):
                     #left direction up
                     del slist[-1]
+                    #head_list = [slist[0][0], slist[0][1]-70]
                     head_list = [slist[0][0], slist[0][1]-70]
                     slist.insert(0, head_list)
                 elif (self.old_direction == 2):
                 #left direction down
                     del slist[-1]
+                    #head_list = [slist[0][0], slist[0][1]-70]
                     head_list = [slist[0][0], slist[0][1]+70]
                     slist.insert(0, head_list)
                 elif (self.old_direction == 3):
                 #left direction left
                     del slist[-1]
+                    #head_list = [slist[0][0], slist[0][1]-70]
                     head_list = [slist[0][0]-70, slist[0][1]]
                     slist.insert(0, head_list)
                 
-            #print "key pressed number: " , direction
-        #else:
-            #print " beyond border"
 
     def collide(self, qp, slist):
         # collide with food
