@@ -21,6 +21,7 @@ from PyQt5.QtGui import QPainter, QColor
 from PyQt5.QtCore import Qt, QTimer, QRect
 
 class Snake(QWidget):
+    collision_tag = False
     templist = [0,0]
     count = 0
     x_init = 10
@@ -36,6 +37,7 @@ class Snake(QWidget):
     slist = [head_list, body_list]#initial snake coordinate
     fcoordinate_list = [220,220]#initial food coordinate
     qp = QPainter() # general painter
+
 
     def __init__(self):
         super(Snake, self).__init__()
@@ -80,15 +82,24 @@ class Snake(QWidget):
             self.direction = 3
         else:
             print ('other key pressed')
+        #s = 'self.direction is:'+repr( self.direction) 
+        #print(s)
 
     def myupdate(self):
         print ('myupdate')
     
-        self.move(self.slist, self.direction)
-        #self.repaint()
         qrect = QRect(self.x_init, self.y_init, self.rect_border_width, self.rect_border_height)
-        self.update(qrect)
+
         self.collide(self.qp, self.slist)
+        self.update(qrect)
+        #self.repaint()
+        if self.collision_tag == False:
+            self.move(self.slist, self.direction)
+        self.collision_tag = False
+        #self.update(qrect)
+
+
+        self.update(qrect)
 
 
     def move(self, slist, direction):
@@ -144,15 +155,44 @@ class Snake(QWidget):
                 
 
     def collide(self, qp, slist):
+        s = 'self.direction is:'+repr( self.direction) 
+        print(s)
+        t = 'snake coordinate:' + repr(self.slist[0][0]) + ','+ repr(self.slist[0][1])
+        print(t)
+        u = 'self.fcoordinate:' + repr(self.fcoordinate_list[0]) + ','+ repr(self.fcoordinate_list[1])
+        print(u)
         # collide with food
-        if (slist[0][0] == self.fcoordinate_list[0]) and (slist[0][1] == self.fcoordinate_list[1]):
+        if ((slist[0][0] == self.fcoordinate_list[0]) and (slist[0][1]+70 == self.fcoordinate_list[1]) and (self.direction == 2)):
             #snake increases
             slist.insert(0, self.fcoordinate_list)
-
+            print ('collide happen down')
             #draw next food
             self.generateFoodPos()
-            #self.drawFood(qp)
+            self.collision_tag = True
 
+        if ((slist[0][0] == self.fcoordinate_list[0]) and (slist[0][1]-70 == self.fcoordinate_list[1]) and (self.direction == 1)):
+            #snake increases
+            slist.insert(0, self.fcoordinate_list)
+            print ('collide happen up')
+            #draw next food
+            self.generateFoodPos()
+            self.collision_tag = True
+
+        if ((slist[0][0]+70 == self.fcoordinate_list[0]) and (slist[0][1] == self.fcoordinate_list[1]) and (self.direction == 0)):
+            #snake increases
+            slist.insert(0, self.fcoordinate_list)
+            print ('collide happen up')
+            #draw next food
+            self.generateFoodPos()
+            self.collision_tag = True
+
+        if ((slist[0][0]-70 == self.fcoordinate_list[0]) and (slist[0][1] == self.fcoordinate_list[1]) and (self.direction == 3)):
+            #snake increases
+            slist.insert(0, self.fcoordinate_list)
+            print ('collide happen up')
+            #draw next food
+            self.generateFoodPos()
+            self.collision_tag = True
 
     def drawRectangleBorder(self, qp):
         color = QColor(0, 0, 255)
