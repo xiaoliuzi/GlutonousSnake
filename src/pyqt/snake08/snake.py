@@ -2,16 +2,10 @@
 #-*- coding:utf-8 -*-
 """
 PyQt4 tutorial
-
 Description: This file is the gluttonous snake games.
-
 Author: xiaoliuzi
-
 date: 20160719
-
 email: genie.6qp@gmail.co:30
-
-
 """
 
 import sys, random
@@ -37,15 +31,16 @@ class Snake(QWidget):
     slist = [head_list, body_list]#initial snake coordinate
     fcoordinate_list = [220,220]#initial food coordinate
     qp = QPainter() # general painter
-
+    food_timer = QTimer()
+    pause = False
 
     def __init__(self):
         super(Snake, self).__init__()
 
         #for testing timer demo
-        food_timer = QTimer(self)
-        food_timer.timeout.connect(self.myupdate)#to update the paiter
-        food_timer.start(800)
+        #food_timer = QTimer(self)
+        self.food_timer.timeout.connect(self.myupdate)#to update the paiter
+        self.food_timer.start(800)
 
         self.initUI()
 
@@ -80,6 +75,9 @@ class Snake(QWidget):
             self.direction = 2
         if e.key() == Qt.Key_Left:
             self.direction = 3
+        if e.key() == Qt.Key_Space :
+            self.pause = not self.pause 
+
         else:
             print ('other key pressed')
         #s = 'self.direction is:'+repr( self.direction) 
@@ -93,7 +91,7 @@ class Snake(QWidget):
         self.collide(self.qp, self.slist)
         self.update(qrect)
         #self.repaint()
-        if self.collision_tag == False:
+        if self.collision_tag == False and self.pause == False:
             self.move(self.slist, self.direction)
         self.collision_tag = False
         #self.update(qrect)
@@ -153,12 +151,13 @@ class Snake(QWidget):
                 
 
     def collide(self, qp, slist):
-        s = 'self.direction is:'+repr( self.direction) 
-        print(s)
-        t = 'snake coordinate:' + repr(self.slist[0][0]) + ','+ repr(self.slist[0][1])
-        print(t)
-        u = 'self.fcoordinate:' + repr(self.fcoordinate_list[0]) + ','+ repr(self.fcoordinate_list[1])
-        print(u)
+        #s = 'self.direction is:'+repr( self.direction) 
+        #print(s)
+        #t = 'snake coordinate:' + repr(self.slist[0][0]) + ','+ repr(self.slist[0][1])
+        #print(t)
+        #u = 'self.fcoordinate:' + repr(self.fcoordinate_list[0]) + ','+ repr(self.fcoordinate_list[1])
+        #print(u)
+
         # collide with food
         if ((slist[0][0] == self.fcoordinate_list[0]) and (slist[0][1]+70 == self.fcoordinate_list[1]) and (self.direction == 2)):
             #snake increases
@@ -202,10 +201,6 @@ class Snake(QWidget):
         for i in range(0, len(slist)):
             qp.drawRect(slist[i][0], slist[i][1], self.snake_food_size, self.snake_food_size)
 
-    def drawInitFood(self, qp):
-        qp.setBrush(QColor(200, 0, 0))
-        qp.drawRect(220, 220, self.snake_food_size, self.snake_food_size)
-
     def drawFood(self, qp):
         #print 'draw food'
         qp.setBrush(QColor(200,0,0))
@@ -229,4 +224,3 @@ if __name__ == '__main__':
     ex = Snake()
 
     sys.exit(app.exec_())
-
