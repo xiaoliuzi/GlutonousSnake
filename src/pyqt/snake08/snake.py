@@ -33,6 +33,7 @@ class Snake(QWidget):
     qp = QPainter() # general painter
     food_timer = QTimer()
     pause = False
+    speed = 800 # it is ms time actually.
 
     def __init__(self):
         super(Snake, self).__init__()
@@ -40,7 +41,7 @@ class Snake(QWidget):
         #for testing timer demo
         #food_timer = QTimer(self)
         self.food_timer.timeout.connect(self.myupdate)#to update the paiter
-        self.food_timer.start(800)
+        self.food_timer.start(self.speed)
 
         self.initUI()
 
