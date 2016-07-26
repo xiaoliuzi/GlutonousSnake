@@ -21,9 +21,15 @@ from PyQt5.QtGui import QPainter, QColor
 from PyQt5.QtCore import Qt, QTimer, QRect
 
 class Snake(QWidget):
-    
+    count = 0
+    x_init = 10
+    y_init = 10
     direction = 0 # initial snake move direction
+    old_direction = direction # to solve the opposite direction
     snake_food_size = 60 # initial snake or food size
+    rect_border_width = 760
+    rect_border_height = 410
+    gap_of_snake_body = 10
     head_list = [80, 10] # initial snake head
     body_list = [10, 10] # initial snake body
     slist = [head_list, body_list]#initial snake coordinate
@@ -55,13 +61,12 @@ class Snake(QWidget):
         self.drawFood(self.qp)
         self.drawSnake(self.qp, self.slist)
 
-        #self.move(self.slist, self.direction)
-        #self.collide(self.qp, self.slist)
-
         self.qp.end()
 
 
     def keyPressEvent(self, e):
+        if (self.direction ^ self.old_direction != 3):
+            self.old_direction = self.direction
         if e.key() == Qt.Key_Escape:
             self.close()
         if e.key() == Qt.Key_Right:
@@ -72,6 +77,8 @@ class Snake(QWidget):
             self.direction = 2
         if e.key() == Qt.Key_Left:
             self.direction = 3
+        else:
+            print ('other key pressed')
 
         #print 'direction is ' , self.direction
     def myupdate(self):
@@ -79,55 +86,77 @@ class Snake(QWidget):
     
         self.move(self.slist, self.direction)
         #self.repaint()
-        qrect = QRect(10, 10, 760, 410)
+        qrect = QRect(self.x_init, self.y_init, self.rect_border_width, self.rect_border_height)
         self.update(qrect)
         self.collide(self.qp, self.slist)
 
 
     def move(self, slist, direction):
-        if (slist[0][0] <= 710 and slist[0][0] >= 10) and (slist[0][1] >= 10 and slist[0][1] <= 360):
-            #right direction right
-            if direction == 0:
-                # last one disappear
-                del slist[-1]
-                head_list = [slist[0][0]+70, slist[0][1]]
-                slist.insert(0, head_list)
-            elif direction == 1:
-            #left direction up
-                del slist[-1]
-                head_list = [slist[0][0], slist[0][1]-70]
-                slist.insert(0, head_list)
-            elif direction == 2:
-            #left direction down
-                del slist[-1]
-                head_list = [slist[0][0], slist[0][1]+70]
-                slist.insert(0, head_list)
-            elif direction == 3:
-            #left direction left
-                del slist[-1]
-                head_list = [slist[0][0]-70, slist[0][1]]
-                slist.insert(0, head_list)
-
+        if (slist[0][0] <= 710 and slist[0][0] >= self.x_init) and (slist[0][1] >= self.y_init and slist[0][1] <= 360):
+            if (direction ^ self.old_direction != 3):
+                #right direction right
+                if (direction == 0) :
+                    # last one disappear
+                    del slist[-1]
+                    head_list = [slist[0][0]+70, slist[0][1]]
+                    slist.insert(0, head_list)
+                elif (direction == 1):
+                    #left direction up
+                    del slist[-1]
+                    head_list = [slist[0][0], slist[0][1]-70]
+                    slist.insert(0, head_list)
+                elif (direction == 2):
+                #left direction down
+                    del slist[-1]
+                    head_list = [slist[0][0], slist[0][1]+70]
+                    slist.insert(0, head_list)
+                elif (direction == 3):
+                #left direction left
+                    del slist[-1]
+                    head_list = [slist[0][0]-70, slist[0][1]]
+                    slist.insert(0, head_list)
+            else:
+                if (self.old_direction == 0) :
+                    # last one disappear
+                    del slist[-1]
+                    head_list = [slist[0][0]+70, slist[0][1]]
+                    slist.insert(0, head_list)
+                elif (self.old_direction == 1):
+                    #left direction up
+                    del slist[-1]
+                    head_list = [slist[0][0], slist[0][1]-70]
+                    slist.insert(0, head_list)
+                elif (self.old_direction == 2):
+                #left direction down
+                    del slist[-1]
+                    head_list = [slist[0][0], slist[0][1]+70]
+                    slist.insert(0, head_list)
+                elif (self.old_direction == 3):
+                #left direction left
+                    del slist[-1]
+                    head_list = [slist[0][0]-70, slist[0][1]]
+                    slist.insert(0, head_list)
+            #    self.old_diection = direction
+                
             #print "key pressed number: " , direction
         #else:
             #print " beyond border"
 
     def collide(self, qp, slist):
         # collide with food
-        #print 'collision'
         if (slist[0][0] == self.fcoordinate_list[0]) and (slist[0][1] == self.fcoordinate_list[1]):
             #snake increases
             slist.insert(0, self.fcoordinate_list)
 
             #draw next food
             self.generateFoodPos()
-            self.drawFood(qp)
+            #self.drawFood(qp)
 
 
     def drawRectangleBorder(self, qp):
         color = QColor(0, 0, 255)
         qp.setPen(color)
-        qp.drawRect(10, 10, 760, 410)
+        qp.drawRect(self.x_init, self.y_init, self.rect_border_width, self.rect_border_height)
 
     def drawSnake(self, qp, slist):
         qp.setBrush(QColor(0,0,0))
@@ -147,8 +176,8 @@ class Snake(QWidget):
         #generate random position of food.
         polymerrization = True
         while polymerrization:
-            x = random.choice(range(10, 710, 70))
-            y = random.choice(range(10, 360, 70))
+            x = random.choice(range(self.x_init, 710, 70))
+            y = random.choice(range(self.y_init, 360, 70))
             self.fcoordinate_list = [x,y]
             if self.fcoordinate_list in Snake.slist:
                 polymerrization = True
