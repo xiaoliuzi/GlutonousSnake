@@ -119,13 +119,11 @@ class Snake(QWidget):
                 elif (direction == 2):
                 #left direction down
                     del slist[-1]
-                    #head_list = [slist[0][0], slist[0][1]-70]
                     head_list = [slist[0][0], slist[0][1]+70]
                     slist.insert(0, head_list)
                 elif (direction == 3):
                 #left direction left
                     del slist[-1]
-                    #head_list = [slist[0][0], slist[0][1]-70]
                     head_list = [slist[0][0]-70, slist[0][1]]
                     slist.insert(0, head_list)
             else:
