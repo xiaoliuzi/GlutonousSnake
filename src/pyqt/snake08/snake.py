@@ -80,7 +80,6 @@ class Snake(QWidget):
         else:
             print ('other key pressed')
 
-        #print 'direction is ' , self.direction
     def myupdate(self):
         print ('myupdate')
     
