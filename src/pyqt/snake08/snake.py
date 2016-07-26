@@ -135,7 +135,6 @@ class Snake(QWidget):
                     del slist[-1]
                     head_list = [slist[0][0]-70, slist[0][1]]
                     slist.insert(0, head_list)
-            #    self.old_diection = direction
                 
             #print "key pressed number: " , direction
         #else:
