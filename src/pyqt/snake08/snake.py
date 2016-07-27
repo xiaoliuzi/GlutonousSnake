@@ -60,6 +60,9 @@ class Snake(QWidget):
         self.drawSnake(self.qp, self.slist)
         self.drawFood(self.qp)
 
+        if self.direction == 4:#direction is 4 to show the snake is dead
+            self.drawDeadSnake(self.qp, self.slist)
+
         self.qp.end()
 
 
@@ -191,6 +194,20 @@ class Snake(QWidget):
             #draw next food
             self.generateFoodPos()
             self.collision_tag = True
+
+#        if ((slist[0][1]+70 > 360) and (self.direction == 2))  or ((slist[0][0] >= 10) and (slist[0][1]-70 < 10) and (self.direction == 1)) or ((slist[0][0]+70 > 710) and (slist[0][1] >= 10) and (self.direction == 0)) or  ((slist[0][0]-70 < 10) and (slist[0][1] >= 10) and (self.direction == 3)):
+        if ((slist[0][1]+70 > 360) and (self.direction == 2))  or ((slist[0][1]-70 < 10) and (self.direction == 1)) or ((slist[0][0]+70 > 710) and  (self.direction == 0)) or  ((slist[0][0]-70 < 10) and (self.direction == 3)):
+            self.dead(qp, slist);
+        #if (slist[0][0] <= 710 and slist[0][0] >= self.x_init) and (slist[0][1] >= self.y_init and slist[0][1] <= 360):
+
+    def dead(self,qp, slist):
+        print ('snake dead!!!!!!!!!!!!!!!!!!')
+        self.direction = 4
+    def drawDeadSnake(self, qp, slist):
+        qp.setBrush(QColor(0,255,0))
+        for i in range(0, len(slist)):
+            qp.drawRect(slist[i][0], slist[i][1], self.snake_food_size, self.snake_food_size)
+        
 
     def drawRectangleBorder(self, qp):
         color = QColor(0, 0, 255)
