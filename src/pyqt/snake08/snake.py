@@ -52,7 +52,7 @@ class Snake(QWidget):
         self.show()
 
     def paintEvent(self, e):
-        print ('paintevent')
+        #print ('paintevent')
         #painter can be used in paintEvent() only.
         self.qp.begin(self)
         self.drawRectangleBorder(self.qp)
@@ -69,27 +69,27 @@ class Snake(QWidget):
     def keyPressEvent(self, e):
         if (self.direction ^ self.old_direction != 3):
             self.old_direction = self.direction
-        if e.key() == Qt.Key_Escape:
-            self.close()
         if e.key() == Qt.Key_Right:
-            self.direction = 0
+                self.direction = 0
         if e.key() == Qt.Key_Up:
-            self.direction = 1
+                self.direction = 1
         if e.key() == Qt.Key_Down:
-            self.direction = 2
+                self.direction = 2
         if e.key() == Qt.Key_Left:
-            self.direction = 3
+                self.direction = 3
         if e.key() == Qt.Key_Space :
-            self.pause = not self.pause 
+                self.pause = not self.pause 
+        if e.key() == Qt.Key_Escape:
+                self.close()
 
-        else:
-            print ('other key pressed')
-        #s = 'self.direction is:'+repr( self.direction) 
-        #print(s)
+        #else:
+            #print ('other key pressed')
+        od = 'od is:'+repr( self.old_direction) 
+        d = 'd is:'+repr( self.direction) 
+        print(od)
+        print(d)
 
     def myupdate(self):
-        print ('myupdate')
-    
         qrect = QRect(self.x_init, self.y_init, self.rect_border_width, self.rect_border_height)
 
         self.collide(self.qp, self.slist)
@@ -129,6 +129,7 @@ class Snake(QWidget):
                     head_list = [slist[0][0]-70, slist[0][1]]
                     slist.insert(0, head_list)
             else:
+                print('d ^ od is 3')
                 if (self.old_direction == 0) :
                     # last one disappear
                     del slist[-1]
@@ -166,7 +167,7 @@ class Snake(QWidget):
         if ((slist[0][0] == self.fcoordinate_list[0]) and (slist[0][1]+70 == self.fcoordinate_list[1]) and (self.direction == 2)):
             #snake increases
             slist.insert(0, self.fcoordinate_list)
-            print ('collide happen down')
+            print ('food collision happen down')
             #draw next food
             self.generateFoodPos()
             self.collision_tag = True
@@ -174,7 +175,7 @@ class Snake(QWidget):
         if ((slist[0][0] == self.fcoordinate_list[0]) and (slist[0][1]-70 == self.fcoordinate_list[1]) and (self.direction == 1)):
             #snake increases
             slist.insert(0, self.fcoordinate_list)
-            print ('collide happen up')
+            print ('food collision happen up')
             #draw next food
             self.generateFoodPos()
             self.collision_tag = True
@@ -182,7 +183,7 @@ class Snake(QWidget):
         if ((slist[0][0]+70 == self.fcoordinate_list[0]) and (slist[0][1] == self.fcoordinate_list[1]) and (self.direction == 0)):
             #snake increases
             slist.insert(0, self.fcoordinate_list)
-            print ('collide happen up')
+            print ('food collision happen up')
             #draw next food
             self.generateFoodPos()
             self.collision_tag = True
@@ -190,15 +191,22 @@ class Snake(QWidget):
         if ((slist[0][0]-70 == self.fcoordinate_list[0]) and (slist[0][1] == self.fcoordinate_list[1]) and (self.direction == 3)):
             #snake increases
             slist.insert(0, self.fcoordinate_list)
-            print ('collide happen up')
+            print ('food collision happen up')
             #draw next food
             self.generateFoodPos()
             self.collision_tag = True
 
-#        if ((slist[0][1]+70 > 360) and (self.direction == 2))  or ((slist[0][0] >= 10) and (slist[0][1]-70 < 10) and (self.direction == 1)) or ((slist[0][0]+70 > 710) and (slist[0][1] >= 10) and (self.direction == 0)) or  ((slist[0][0]-70 < 10) and (slist[0][1] >= 10) and (self.direction == 3)):
+        #collise with border
         if ((slist[0][1]+70 > 360) and (self.direction == 2))  or ((slist[0][1]-70 < 10) and (self.direction == 1)) or ((slist[0][0]+70 > 710) and  (self.direction == 0)) or  ((slist[0][0]-70 < 10) and (self.direction == 3)):
-            self.dead(qp, slist);
-        #if (slist[0][0] <= 710 and slist[0][0] >= self.x_init) and (slist[0][1] >= self.y_init and slist[0][1] <= 360):
+            self.dead(qp, slist)
+
+        #collise with snake itself
+        if (([slist[0][0],slist[0][1]+70] in slist) and (self.direction == 2) and ([slist[0][0], slist[0][1]+70] != [slist[1][0],slist[1][1]])) \
+        or (([slist[0][0],slist[0][1]-70] in slist) and (self.direction == 1) and ([slist[0][0], slist[0][1]-70] != [slist[1][0],slist[1][1]])) \
+        or (([slist[0][0]+70,slist[0][1]] in slist) and (self.direction == 0) and ([slist[0][0]+70, slist[0][1]] != [slist[1][0],slist[1][1]])) \
+        or (([slist[0][0]-70,slist[0][1]] in slist) and (self.direction == 3) and ([slist[0][0]-70, slist[0][1]] != [slist[1][0],slist[1][1]])): 
+        #and (self.direction ^ self.old_direction != 3):
+            self.dead(qp, slist)
 
     def dead(self,qp, slist):
         print ('snake dead!!!!!!!!!!!!!!!!!!')
