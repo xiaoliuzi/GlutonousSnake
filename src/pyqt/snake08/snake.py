@@ -163,6 +163,19 @@ class Snake(QWidget):
         #u = 'self.fcoordinate:' + repr(self.fcoordinate_list[0]) + ','+ repr(self.fcoordinate_list[1])
         #print(u)
 
+        #collise with border
+        if ((slist[0][1]+70 > 360) and (self.direction == 2))  or ((slist[0][1]-70 < 10) and (self.direction == 1)) or ((slist[0][0]+70 > 710) and  (self.direction == 0)) or  ((slist[0][0]-70 < 10) and (self.direction == 3)):
+            print('out of border')
+            self.dead(qp, slist)
+
+        #collise with snake itself
+        if (([slist[0][0],slist[0][1]+70] in slist) and (self.direction == 2) and ([slist[0][0], slist[0][1]+70] != [slist[1][0],slist[1][1]])) \
+        or (([slist[0][0],slist[0][1]-70] in slist) and (self.direction == 1) and ([slist[0][0], slist[0][1]-70] != [slist[1][0],slist[1][1]])) \
+        or (([slist[0][0]+70,slist[0][1]] in slist) and (self.direction == 0) and ([slist[0][0]+70, slist[0][1]] != [slist[1][0],slist[1][1]])) \
+        or (([slist[0][0]-70,slist[0][1]] in slist) and (self.direction == 3) and ([slist[0][0]-70, slist[0][1]] != [slist[1][0],slist[1][1]])): 
+        #and (self.direction ^ self.old_direction != 3):
+            self.dead(qp, slist)
+
         # collide with food
         if ((slist[0][0] == self.fcoordinate_list[0]) and (slist[0][1]+70 == self.fcoordinate_list[1]) and (self.direction == 2)):
             #snake increases
@@ -195,18 +208,6 @@ class Snake(QWidget):
             #draw next food
             self.generateFoodPos()
             self.collision_tag = True
-
-        #collise with border
-        if ((slist[0][1]+70 > 360) and (self.direction == 2))  or ((slist[0][1]-70 < 10) and (self.direction == 1)) or ((slist[0][0]+70 > 710) and  (self.direction == 0)) or  ((slist[0][0]-70 < 10) and (self.direction == 3)):
-            self.dead(qp, slist)
-
-        #collise with snake itself
-        if (([slist[0][0],slist[0][1]+70] in slist) and (self.direction == 2) and ([slist[0][0], slist[0][1]+70] != [slist[1][0],slist[1][1]])) \
-        or (([slist[0][0],slist[0][1]-70] in slist) and (self.direction == 1) and ([slist[0][0], slist[0][1]-70] != [slist[1][0],slist[1][1]])) \
-        or (([slist[0][0]+70,slist[0][1]] in slist) and (self.direction == 0) and ([slist[0][0]+70, slist[0][1]] != [slist[1][0],slist[1][1]])) \
-        or (([slist[0][0]-70,slist[0][1]] in slist) and (self.direction == 3) and ([slist[0][0]-70, slist[0][1]] != [slist[1][0],slist[1][1]])): 
-        #and (self.direction ^ self.old_direction != 3):
-            self.dead(qp, slist)
 
     def dead(self,qp, slist):
         print ('snake dead!!!!!!!!!!!!!!!!!!')
