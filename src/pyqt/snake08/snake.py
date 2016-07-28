@@ -75,20 +75,20 @@ class Snake(QWidget):
 
     def keyPressEvent(self, e):
         if e.key() == Qt.Key_Right and self.direction[0] != 3:
+                self.myupdate()
                 self.direction[0] = 0
-                self.myupdate()
         if e.key() == Qt.Key_Up and self.direction[0] != 2:
+                self.myupdate()
                 self.direction[0] = 1
-                self.myupdate()
         if e.key() == Qt.Key_Down and self.direction[0] != 1:
+                self.myupdate()
                 self.direction[0] = 2
-                self.myupdate()
         if e.key() == Qt.Key_Left and self.direction[0] != 0:
+                self.myupdate()
                 self.direction[0] = 3
-                self.myupdate()
         if e.key() == Qt.Key_Space :
-                self.pause = not self.pause 
                 self.myupdate()
+                self.pause = not self.pause 
         if e.key() == Qt.Key_Escape:
                 self.close()
                 self.myupdate()
@@ -105,7 +105,7 @@ class Snake(QWidget):
 
         self.update(qrect)
         #self.repaint()
-        if self.collision_tag == False and self.pause == False:
+        if self.collision_tag == False and self.pause == False and self.death_tag != 4:
             self.move(self.slist, self.direction[0])
         self.collision_tag = False
         #self.update(qrect)
@@ -142,6 +142,7 @@ class Snake(QWidget):
         if ((slist[0][1]+(self.snake_food_size+self.gap_of_snake_body) > self.max_posy) and (self.direction[0] == 2))  or ((slist[0][1]-(self.snake_food_size+self.gap_of_snake_body) < 10) and (self.direction[0] == 1)) or ((slist[0][0]+(self.snake_food_size+self.gap_of_snake_body) > self.max_posx) and  (self.direction[0] == 0)) or  ((slist[0][0]-(self.snake_food_size+self.gap_of_snake_body) < 10) and (self.direction[0] == 3)):
             print('out of border')
             self.dead(qp, slist)
+            self.update()
 
         #collise with snake itself
         if (([slist[0][0],slist[0][1]+(self.snake_food_size+self.gap_of_snake_body)] in slist) and (self.direction[0] == 2) and ([slist[0][0], slist[0][1]+(self.snake_food_size+self.gap_of_snake_body)] != [slist[1][0],slist[1][1]])) \
