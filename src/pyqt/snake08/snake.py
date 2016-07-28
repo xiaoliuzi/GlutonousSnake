@@ -99,15 +99,16 @@ class Snake(QWidget):
         qrect = QRect(self.x_init, self.y_init, self.rect_border_width, self.rect_border_height)
 
         self.collide(self.qp, self.slist)
-        self.update(qrect)
-        #self.repaint()
+        #self.update(qrect)
+        self.repaint()
         if self.collision_tag == False and self.pause == False:
             self.move(self.slist, self.direction)
         self.collision_tag = False
         #self.update(qrect)
 
 
-        self.update(qrect)
+        self.repaint()
+        #self.update(qrect)
 
 
     def move(self, slist, direction):
@@ -134,7 +135,8 @@ class Snake(QWidget):
                     del slist[-1]
                     head_list = [slist[0][0]-(self.snake_food_size+self.gap_of_snake_body), slist[0][1]]
                     slist.insert(0, head_list)
-            else:
+
+           else:
                 print('d ^ od is 3')
                 if (self.old_direction == 0) :
                     # last one disappear
@@ -159,8 +161,7 @@ class Snake(QWidget):
                     #head_list = [slist[0][0], slist[0][1]-(self.snake_food_size+self.gap_of_snake_body)]
                     head_list = [slist[0][0]-(self.snake_food_size+self.gap_of_snake_body), slist[0][1]]
                     slist.insert(0, head_list)
-                
-
+    
     def collide(self, qp, slist):
         #s = 'self.direction is:'+repr( self.direction) 
         #print(s)
