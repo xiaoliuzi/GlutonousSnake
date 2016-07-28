@@ -20,21 +20,21 @@ class Snake(QWidget):
     x_init = 10
     y_init = 10
     direction = [0] # initial snake move direction
-    snake_food_size = 60 # initial snake or food size
-    gap_of_snake_body = 10
+    snake_food_size = 30 # initial snake or food size
+    gap_of_snake_body = 5
     w = 10
     h = 5
     death_tag = 1
+    snake_len = (snake_food_size+gap_of_snake_body)
 
-
-    rect_border_width = ((snake_food_size+gap_of_snake_body)*w+snake_food_size)
-    rect_border_height = ((snake_food_size+gap_of_snake_body)*h+snake_food_size)
-    max_posx = (rect_border_width - snake_food_size+gap_of_snake_body)
-    max_posy = (rect_border_height - snake_food_size+gap_of_snake_body)
-    head_list = [(x_init+snake_food_size+gap_of_snake_body), y_init] # initial snake head
-    body_list = [(x_init+snake_food_size+gap_of_snake_body), y_init] # initial snake body
+    rect_border_width = ((snake_len)*w+snake_food_size)
+    rect_border_height = ((snake_len)*h+snake_food_size)
+    max_posx = (rect_border_width +gap_of_snake_body)
+    max_posy = (rect_border_height +gap_of_snake_body)
+    head_list = [(x_init+snake_len), y_init] # initial snake head
+    body_list = [(x_init+snake_len), y_init] # initial snake body
     slist = [head_list, body_list]#initial snake coordinate
-    fcoordinate_list = [((snake_food_size+gap_of_snake_body)+x_init),((snake_food_size+gap_of_snake_body)+y_init)]#initial food coordinate
+    fcoordinate_list = [(snake_len+x_init),(snake_len+y_init)]#initial food coordinate
     qp = QPainter() # general painter
     food_timer = QTimer()
     pause = False
