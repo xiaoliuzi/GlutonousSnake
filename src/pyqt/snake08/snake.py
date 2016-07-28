@@ -75,23 +75,23 @@ class Snake(QWidget):
 
     def keyPressEvent(self, e):
         if e.key() == Qt.Key_Right and self.direction[0] != 3:
-                self.myupdate()
                 self.direction[0] = 0
+                self.myupdate()
         if e.key() == Qt.Key_Up and self.direction[0] != 2:
-                self.myupdate()
                 self.direction[0] = 1
+                self.myupdate()
         if e.key() == Qt.Key_Down and self.direction[0] != 1:
-                self.myupdate()
                 self.direction[0] = 2
+                self.myupdate()
         if e.key() == Qt.Key_Left and self.direction[0] != 0:
-                self.myupdate()
                 self.direction[0] = 3
-        if e.key() == Qt.Key_Space :
                 self.myupdate()
+        if e.key() == Qt.Key_Space :
                 self.pause = not self.pause 
+                self.myupdate()
         if e.key() == Qt.Key_Escape:
                 self.close()
-                self.myupdate()
+                #self.myupdate()
 
         #else:
             #print ('other key pressed')
