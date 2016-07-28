@@ -26,8 +26,8 @@ class Snake(QWidget):
     rect_border_width = 760
     rect_border_height = 410
     gap_of_snake_body = 10
-    head_list = [80, 10] # initial snake head
-    body_list = [10, 10] # initial snake body
+    head_list = [(x_init+snake_food_size+gap_of_snake_body), y_init] # initial snake head
+    body_list = [(x_init+snake_food_size+gap_of_snake_body), y_init] # initial snake body
     slist = [head_list, body_list]#initial snake coordinate
     fcoordinate_list = [220,220]#initial food coordinate
     qp = QPainter() # general painter
@@ -111,47 +111,47 @@ class Snake(QWidget):
                 if (direction == 0) :
                     # last one disappear
                     del slist[-1]
-                    head_list = [slist[0][0]+70, slist[0][1]]
+                    head_list = [slist[0][0]+(self.snake_food_size+self.gap_of_snake_body), slist[0][1]]
                     slist.insert(0, head_list)
                 elif (direction == 1):
                     #left direction up
                     del slist[-1]
-                    head_list = [slist[0][0], slist[0][1]-70]
+                    head_list = [slist[0][0], slist[0][1]-(self.snake_food_size+self.gap_of_snake_body)]
                     slist.insert(0, head_list)
                 elif (direction == 2):
                 #left direction down
                     del slist[-1]
-                    head_list = [slist[0][0], slist[0][1]+70]
+                    head_list = [slist[0][0], slist[0][1]+(self.snake_food_size+self.gap_of_snake_body)]
                     slist.insert(0, head_list)
                 elif (direction == 3):
                 #left direction left
                     del slist[-1]
-                    head_list = [slist[0][0]-70, slist[0][1]]
+                    head_list = [slist[0][0]-(self.snake_food_size+self.gap_of_snake_body), slist[0][1]]
                     slist.insert(0, head_list)
             else:
                 print('d ^ od is 3')
                 if (self.old_direction == 0) :
                     # last one disappear
                     del slist[-1]
-                    head_list = [slist[0][0]+70, slist[0][1]]
+                    head_list = [slist[0][0]+(self.snake_food_size+self.gap_of_snake_body), slist[0][1]]
                     slist.insert(0, head_list)
                 elif (self.old_direction == 1):
                     #left direction up
                     del slist[-1]
-                    #head_list = [slist[0][0], slist[0][1]-70]
-                    head_list = [slist[0][0], slist[0][1]-70]
+                    #head_list = [slist[0][0], slist[0][1]-(self.snake_food_size+self.gap_of_snake_body)]
+                    head_list = [slist[0][0], slist[0][1]-(self.snake_food_size+self.gap_of_snake_body)]
                     slist.insert(0, head_list)
                 elif (self.old_direction == 2):
                 #left direction down
                     del slist[-1]
-                    #head_list = [slist[0][0], slist[0][1]-70]
-                    head_list = [slist[0][0], slist[0][1]+70]
+                    #head_list = [slist[0][0], slist[0][1]-(self.snake_food_size+self.gap_of_snake_body)]
+                    head_list = [slist[0][0], slist[0][1]+(self.snake_food_size+self.gap_of_snake_body)]
                     slist.insert(0, head_list)
                 elif (self.old_direction == 3):
                 #left direction left
                     del slist[-1]
-                    #head_list = [slist[0][0], slist[0][1]-70]
-                    head_list = [slist[0][0]-70, slist[0][1]]
+                    #head_list = [slist[0][0], slist[0][1]-(self.snake_food_size+self.gap_of_snake_body)]
+                    head_list = [slist[0][0]-(self.snake_food_size+self.gap_of_snake_body), slist[0][1]]
                     slist.insert(0, head_list)
                 
 
@@ -164,20 +164,20 @@ class Snake(QWidget):
         #print(u)
 
         #collise with border
-        if ((slist[0][1]+70 > 360) and (self.direction == 2))  or ((slist[0][1]-70 < 10) and (self.direction == 1)) or ((slist[0][0]+70 > 710) and  (self.direction == 0)) or  ((slist[0][0]-70 < 10) and (self.direction == 3)):
+        if ((slist[0][1]+(self.snake_food_size+self.gap_of_snake_body) > 360) and (self.direction == 2))  or ((slist[0][1]-(self.snake_food_size+self.gap_of_snake_body) < 10) and (self.direction == 1)) or ((slist[0][0]+(self.snake_food_size+self.gap_of_snake_body) > 710) and  (self.direction == 0)) or  ((slist[0][0]-(self.snake_food_size+self.gap_of_snake_body) < 10) and (self.direction == 3)):
             print('out of border')
             self.dead(qp, slist)
 
         #collise with snake itself
-        if (([slist[0][0],slist[0][1]+70] in slist) and (self.direction == 2) and ([slist[0][0], slist[0][1]+70] != [slist[1][0],slist[1][1]])) \
-        or (([slist[0][0],slist[0][1]-70] in slist) and (self.direction == 1) and ([slist[0][0], slist[0][1]-70] != [slist[1][0],slist[1][1]])) \
-        or (([slist[0][0]+70,slist[0][1]] in slist) and (self.direction == 0) and ([slist[0][0]+70, slist[0][1]] != [slist[1][0],slist[1][1]])) \
-        or (([slist[0][0]-70,slist[0][1]] in slist) and (self.direction == 3) and ([slist[0][0]-70, slist[0][1]] != [slist[1][0],slist[1][1]])): 
+        if (([slist[0][0],slist[0][1]+(self.snake_food_size+self.gap_of_snake_body)] in slist) and (self.direction == 2) and ([slist[0][0], slist[0][1]+(self.snake_food_size+self.gap_of_snake_body)] != [slist[1][0],slist[1][1]])) \
+        or (([slist[0][0],slist[0][1]-(self.snake_food_size+self.gap_of_snake_body)] in slist) and (self.direction == 1) and ([slist[0][0], slist[0][1]-(self.snake_food_size+self.gap_of_snake_body)] != [slist[1][0],slist[1][1]])) \
+        or (([slist[0][0]+(self.snake_food_size+self.gap_of_snake_body),slist[0][1]] in slist) and (self.direction == 0) and ([slist[0][0]+(self.snake_food_size+self.gap_of_snake_body), slist[0][1]] != [slist[1][0],slist[1][1]])) \
+        or (([slist[0][0]-(self.snake_food_size+self.gap_of_snake_body),slist[0][1]] in slist) and (self.direction == 3) and ([slist[0][0]-(self.snake_food_size+self.gap_of_snake_body), slist[0][1]] != [slist[1][0],slist[1][1]])): 
         #and (self.direction ^ self.old_direction != 3):
             self.dead(qp, slist)
 
         # collide with food
-        if ((slist[0][0] == self.fcoordinate_list[0]) and (slist[0][1]+70 == self.fcoordinate_list[1]) and (self.direction == 2)):
+        if ((slist[0][0] == self.fcoordinate_list[0]) and (slist[0][1]+(self.snake_food_size+self.gap_of_snake_body) == self.fcoordinate_list[1]) and (self.direction == 2)):
             #snake increases
             slist.insert(0, self.fcoordinate_list)
             print ('food collision happen down')
@@ -185,7 +185,7 @@ class Snake(QWidget):
             self.generateFoodPos()
             self.collision_tag = True
 
-        if ((slist[0][0] == self.fcoordinate_list[0]) and (slist[0][1]-70 == self.fcoordinate_list[1]) and (self.direction == 1)):
+        if ((slist[0][0] == self.fcoordinate_list[0]) and (slist[0][1]-(self.snake_food_size+self.gap_of_snake_body) == self.fcoordinate_list[1]) and (self.direction == 1)):
             #snake increases
             slist.insert(0, self.fcoordinate_list)
             print ('food collision happen up')
@@ -193,7 +193,7 @@ class Snake(QWidget):
             self.generateFoodPos()
             self.collision_tag = True
 
-        if ((slist[0][0]+70 == self.fcoordinate_list[0]) and (slist[0][1] == self.fcoordinate_list[1]) and (self.direction == 0)):
+        if ((slist[0][0]+(self.snake_food_size+self.gap_of_snake_body) == self.fcoordinate_list[0]) and (slist[0][1] == self.fcoordinate_list[1]) and (self.direction == 0)):
             #snake increases
             slist.insert(0, self.fcoordinate_list)
             print ('food collision happen up')
@@ -201,7 +201,7 @@ class Snake(QWidget):
             self.generateFoodPos()
             self.collision_tag = True
 
-        if ((slist[0][0]-70 == self.fcoordinate_list[0]) and (slist[0][1] == self.fcoordinate_list[1]) and (self.direction == 3)):
+        if ((slist[0][0]-(self.snake_food_size+self.gap_of_snake_body) == self.fcoordinate_list[0]) and (slist[0][1] == self.fcoordinate_list[1]) and (self.direction == 3)):
             #snake increases
             slist.insert(0, self.fcoordinate_list)
             print ('food collision happen up')
@@ -212,6 +212,8 @@ class Snake(QWidget):
     def dead(self,qp, slist):
         print ('snake dead!!!!!!!!!!!!!!!!!!')
         self.direction = 4
+        self.food_timer.stop()# to avoid snake can move after death.
+
     def drawDeadSnake(self, qp, slist):
         qp.setBrush(QColor(0,255,0))
         for i in range(0, len(slist)):
@@ -237,8 +239,8 @@ class Snake(QWidget):
         #generate random position of food.
         polymerrization = True
         while polymerrization:
-            x = random.choice(range(self.x_init, 710, 70))
-            y = random.choice(range(self.y_init, 360, 70))
+            x = random.choice(range(self.x_init, 710, (self.snake_food_size+self.gap_of_snake_body)))
+            y = random.choice(range(self.y_init, 360, (self.snake_food_size+self.gap_of_snake_body)))
             self.fcoordinate_list = [x,y]
             if self.fcoordinate_list in Snake.slist:
                 polymerrization = True
