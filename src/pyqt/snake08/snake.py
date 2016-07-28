@@ -22,14 +22,20 @@ class Snake(QWidget):
     y_init = 10
     direction = 0 # initial snake move direction
     old_direction = direction # to solve the opposite direction
-    snake_food_size = 60 # initial snake or food size
-    rect_border_width = 760
-    rect_border_height = 410
+    snake_food_size = 30 # initial snake or food size
     gap_of_snake_body = 10
+    w = 10
+    h = 5
+
+
+    rect_border_width = ((snake_food_size+gap_of_snake_body)*w+snake_food_size)
+    rect_border_height = ((snake_food_size+gap_of_snake_body)*h+snake_food_size)
+    max_posx = (rect_border_width - snake_food_size+gap_of_snake_body)
+    max_posy = (rect_border_height - snake_food_size+gap_of_snake_body)
     head_list = [(x_init+snake_food_size+gap_of_snake_body), y_init] # initial snake head
     body_list = [(x_init+snake_food_size+gap_of_snake_body), y_init] # initial snake body
     slist = [head_list, body_list]#initial snake coordinate
-    fcoordinate_list = [220,220]#initial food coordinate
+    fcoordinate_list = [((snake_food_size+gap_of_snake_body)+x_init),((snake_food_size+gap_of_snake_body)+y_init)]#initial food coordinate
     qp = QPainter() # general painter
     food_timer = QTimer()
     pause = False
@@ -105,7 +111,7 @@ class Snake(QWidget):
 
 
     def move(self, slist, direction):
-        if (slist[0][0] <= 710 and slist[0][0] >= self.x_init) and (slist[0][1] >= self.y_init and slist[0][1] <= 360):
+        if (slist[0][0] <= self.max_posx and slist[0][0] >= self.x_init) and (slist[0][1] >= self.y_init and slist[0][1] <= self.max_posy):
             if (direction ^ self.old_direction != 3):
                 #right direction right
                 if (direction == 0) :
@@ -164,7 +170,7 @@ class Snake(QWidget):
         #print(u)
 
         #collise with border
-        if ((slist[0][1]+(self.snake_food_size+self.gap_of_snake_body) > 360) and (self.direction == 2))  or ((slist[0][1]-(self.snake_food_size+self.gap_of_snake_body) < 10) and (self.direction == 1)) or ((slist[0][0]+(self.snake_food_size+self.gap_of_snake_body) > 710) and  (self.direction == 0)) or  ((slist[0][0]-(self.snake_food_size+self.gap_of_snake_body) < 10) and (self.direction == 3)):
+        if ((slist[0][1]+(self.snake_food_size+self.gap_of_snake_body) > self.max_posy) and (self.direction == 2))  or ((slist[0][1]-(self.snake_food_size+self.gap_of_snake_body) < 10) and (self.direction == 1)) or ((slist[0][0]+(self.snake_food_size+self.gap_of_snake_body) > self.max_posx) and  (self.direction == 0)) or  ((slist[0][0]-(self.snake_food_size+self.gap_of_snake_body) < 10) and (self.direction == 3)):
             print('out of border')
             self.dead(qp, slist)
 
@@ -239,8 +245,8 @@ class Snake(QWidget):
         #generate random position of food.
         polymerrization = True
         while polymerrization:
-            x = random.choice(range(self.x_init, 710, (self.snake_food_size+self.gap_of_snake_body)))
-            y = random.choice(range(self.y_init, 360, (self.snake_food_size+self.gap_of_snake_body)))
+            x = random.choice(range(self.x_init, self.max_posx, (self.snake_food_size+self.gap_of_snake_body)))
+            y = random.choice(range(self.y_init, self.max_posy, (self.snake_food_size+self.gap_of_snake_body)))
             self.fcoordinate_list = [x,y]
             if self.fcoordinate_list in Snake.slist:
                 polymerrization = True
