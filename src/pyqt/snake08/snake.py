@@ -136,7 +136,7 @@ class Snake(QWidget):
                     head_list = [slist[0][0]-(self.snake_food_size+self.gap_of_snake_body), slist[0][1]]
                     slist.insert(0, head_list)
 
-           else:
+            else:
                 print('d ^ od is 3')
                 if (self.old_direction == 0) :
                     # last one disappear
@@ -146,22 +146,19 @@ class Snake(QWidget):
                 elif (self.old_direction == 1):
                     #left direction up
                     del slist[-1]
-                    #head_list = [slist[0][0], slist[0][1]-(self.snake_food_size+self.gap_of_snake_body)]
                     head_list = [slist[0][0], slist[0][1]-(self.snake_food_size+self.gap_of_snake_body)]
                     slist.insert(0, head_list)
                 elif (self.old_direction == 2):
                 #left direction down
                     del slist[-1]
-                    #head_list = [slist[0][0], slist[0][1]-(self.snake_food_size+self.gap_of_snake_body)]
                     head_list = [slist[0][0], slist[0][1]+(self.snake_food_size+self.gap_of_snake_body)]
                     slist.insert(0, head_list)
                 elif (self.old_direction == 3):
                 #left direction left
                     del slist[-1]
-                    #head_list = [slist[0][0], slist[0][1]-(self.snake_food_size+self.gap_of_snake_body)]
                     head_list = [slist[0][0]-(self.snake_food_size+self.gap_of_snake_body), slist[0][1]]
                     slist.insert(0, head_list)
-    
+
     def collide(self, qp, slist):
         #s = 'self.direction is:'+repr( self.direction) 
         #print(s)
