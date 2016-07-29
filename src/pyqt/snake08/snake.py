@@ -32,7 +32,7 @@ class Snake(QWidget):
     max_posx = (rect_border_width +gap_of_snake_body)
     max_posy = (rect_border_height +gap_of_snake_body)
     head_list = [(x_init+snake_len), y_init] # initial snake head
-    body_list = [(x_init+snake_len), y_init] # initial snake body
+    body_list = [x_init, y_init] # initial snake body
     slist = [head_list, body_list]#initial snake coordinate
     fcoordinate_list = [(snake_len+x_init),(snake_len+y_init)]#initial food coordinate
 
@@ -142,9 +142,9 @@ class Snake(QWidget):
     def collide(self, qp, slist):
         #collise with border
         if ((slist[0][1]+self.snake_len > self.max_posy) and (self.direction[0] == 2))  \
-                or ((slist[0][1]-self.snake_len < self.y_init) and (self.direction[0] == 1)) \
-                or ((slist[0][0]+self.snake_len > self.max_posx) and  (self.direction[0] == 0)) \
-                or  ((slist[0][0]-self.snake_len < self.x_init) and (self.direction[0] == 3)):
+            or ((slist[0][1]-self.snake_len < self.y_init) and (self.direction[0] == 1)) \
+            or ((slist[0][0]+self.snake_len > self.max_posx) and  (self.direction[0] == 0)) \
+            or  ((slist[0][0]-self.snake_len < self.x_init) and (self.direction[0] == 3)):
             print('out of border')
             self.dead(qp, slist)
             self.update()
