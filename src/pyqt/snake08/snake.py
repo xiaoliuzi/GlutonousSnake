@@ -79,22 +79,22 @@ class Snake(QWidget):
         od = 'od is:'+repr( self.old_direction) 
         d = 'd is:'+repr( self.direction) 
         self.press_key_tag = 1
-        if e.key() == Qt.Key_Right and self.direction[0] != 3:
+        if e.key() == Qt.Key_Right and self.direction[0] != 3 and self.direction[0] != 0:
                 self.direction[0] = 0
         #        print(od)
                 print(d)
                 self.myupdate()
-        if e.key() == Qt.Key_Up and self.direction[0] != 2:
+        if e.key() == Qt.Key_Up and self.direction[0] != 2 and self.direction[0] != 1:
                 self.direction[0] = 1
         #        print(od)
                 print(d)
                 self.myupdate()
-        if e.key() == Qt.Key_Down and self.direction[0] != 1:
+        if e.key() == Qt.Key_Down and self.direction[0] != 1 and self.direction[0] != 2:
                 self.direction[0] = 2
         #        print(od)
                 print(d)
                 self.myupdate()
-        if e.key() == Qt.Key_Left and self.direction[0] != 0:
+        if e.key() == Qt.Key_Left and self.direction[0] != 0 and self.direction[0] != 3:
                 self.direction[0] = 3
         #        print(od)
                 print(d)
