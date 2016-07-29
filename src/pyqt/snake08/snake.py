@@ -16,11 +16,9 @@ from PyQt5.QtCore import Qt, QTimer, QRect
 
 class Snake(QWidget):
     collision_tag = False
-    templist = [0,0]
     x_init = 10
     y_init = 10
     direction = [0] # initial snake move direction
-    old_direction = [0] # initial snake move direction
     press_key_tag = 0
     snake_food_size = 30 # initial snake or food size
     gap_of_snake_body = 5
@@ -37,6 +35,7 @@ class Snake(QWidget):
     body_list = [(x_init+snake_len), y_init] # initial snake body
     slist = [head_list, body_list]#initial snake coordinate
     fcoordinate_list = [(snake_len+x_init),(snake_len+y_init)]#initial food coordinate
+
     qp = QPainter() # general painter
     food_timer = QTimer()
     pause = False
@@ -72,27 +71,22 @@ class Snake(QWidget):
 
 
     def keyPressEvent(self, e):
-        od = 'od is:'+repr( self.old_direction) 
         d = 'd is:'+repr( self.direction) 
         self.press_key_tag = 1
         if e.key() == Qt.Key_Right and self.direction[0] != 3 and self.direction[0] != 0:
                 self.direction[0] = 0
-        #        print(od)
                 print(d)
                 self.myupdate()
         if e.key() == Qt.Key_Up and self.direction[0] != 2 and self.direction[0] != 1:
                 self.direction[0] = 1
-        #        print(od)
                 print(d)
                 self.myupdate()
         if e.key() == Qt.Key_Down and self.direction[0] != 1 and self.direction[0] != 2:
                 self.direction[0] = 2
-        #        print(od)
                 print(d)
                 self.myupdate()
         if e.key() == Qt.Key_Left and self.direction[0] != 0 and self.direction[0] != 3:
                 self.direction[0] = 3
-        #        print(od)
                 print(d)
                 self.myupdate()
         if e.key() == Qt.Key_Space :
@@ -100,11 +94,7 @@ class Snake(QWidget):
                 self.myupdate()
         if e.key() == Qt.Key_Escape:
                 self.close()
-                #self.myupdate()
-
-
-        #self.old_direction = self.direction
-
+                self.myupdate()
 
     def myupdate(self):
         qrect = QRect(self.x_init, self.y_init, self.rect_border_width, self.rect_border_height)
@@ -122,34 +112,32 @@ class Snake(QWidget):
             #self.press_key_tag = 1
 
         self.collision_tag = False
-        #self.update(qrect)
-        #self.repaint()
         self.update(qrect)
 
 
     def move(self, slist, direction):
         if (slist[0][0] <= self.max_posx and slist[0][0] >= self.x_init) and (slist[0][1] >= self.y_init and slist[0][1] <= self.max_posy):
-                #direction right
-                if (direction == 0) :
-                #last one disappear
-                    del slist[-1]
-                    head_list = [slist[0][0]+self.snake_len, slist[0][1]]
-                    slist.insert(0, head_list)
-                elif (direction == 1):
-                #direction up
-                    del slist[-1]
-                    head_list = [slist[0][0], slist[0][1]-self.snake_len]
-                    slist.insert(0, head_list)
-                elif (direction == 2):
-                #direction down
-                    del slist[-1]
-                    head_list = [slist[0][0], slist[0][1]+self.snake_len]
-                    slist.insert(0, head_list)
-                elif (direction == 3):
-                #direction left
-                    del slist[-1]
-                    head_list = [slist[0][0]-self.snake_len, slist[0][1]]
-                    slist.insert(0, head_list)
+            #direction right
+            if (direction == 0) :
+            #last one disappear
+                del slist[-1]
+                head_list = [slist[0][0]+self.snake_len, slist[0][1]]
+                slist.insert(0, head_list)
+            elif (direction == 1):
+            #direction up
+                del slist[-1]
+                head_list = [slist[0][0], slist[0][1]-self.snake_len]
+                slist.insert(0, head_list)
+            elif (direction == 2):
+            #direction down
+                del slist[-1]
+                head_list = [slist[0][0], slist[0][1]+self.snake_len]
+                slist.insert(0, head_list)
+            elif (direction == 3):
+            #direction left
+                del slist[-1]
+                head_list = [slist[0][0]-self.snake_len, slist[0][1]]
+                slist.insert(0, head_list)
 
     def collide(self, qp, slist):
         #collise with border
@@ -217,7 +205,6 @@ class Snake(QWidget):
                 polymerrization = True
             else:
                 polymerrization = False
-
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
