@@ -124,7 +124,7 @@ class Snake(QWidget):
         elif self.collision_tag == False and self.pause == False and self.death_tag != 4 and self.press_key_tag == 0:
             self.move(self.slist, self.direction[0])
             print('no press and move')
-            self.press_key_tag = 1
+            #self.press_key_tag = 1
 
         self.collision_tag = False
         #self.update(qrect)
