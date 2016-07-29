@@ -20,10 +20,12 @@ class Snake(QWidget):
     x_init = 10
     y_init = 10
     direction = [0] # initial snake move direction
+    old_direction = [0] # initial snake move direction
+    press_key_tag = 0
     snake_food_size = 30 # initial snake or food size
     gap_of_snake_body = 5
-    w = 10
-    h = 5
+    w = 30
+    h = 15 
     death_tag = 1
     snake_len = (snake_food_size+gap_of_snake_body)
 
@@ -74,17 +76,28 @@ class Snake(QWidget):
 
 
     def keyPressEvent(self, e):
+        od = 'od is:'+repr( self.old_direction) 
+        d = 'd is:'+repr( self.direction) 
+        self.press_key_tag = 1
         if e.key() == Qt.Key_Right and self.direction[0] != 3:
                 self.direction[0] = 0
+        #        print(od)
+                print(d)
                 self.myupdate()
         if e.key() == Qt.Key_Up and self.direction[0] != 2:
                 self.direction[0] = 1
+        #        print(od)
+                print(d)
                 self.myupdate()
         if e.key() == Qt.Key_Down and self.direction[0] != 1:
                 self.direction[0] = 2
+        #        print(od)
+                print(d)
                 self.myupdate()
         if e.key() == Qt.Key_Left and self.direction[0] != 0:
                 self.direction[0] = 3
+        #        print(od)
+                print(d)
                 self.myupdate()
         if e.key() == Qt.Key_Space :
                 self.pause = not self.pause 
@@ -93,10 +106,9 @@ class Snake(QWidget):
                 self.close()
                 #self.myupdate()
 
-        #else:
-            #print ('other key pressed')
-        d = 'd is:'+repr( self.direction) 
-        print(d)
+
+        #self.old_direction = self.direction
+
 
     def myupdate(self):
         qrect = QRect(self.x_init, self.y_init, self.rect_border_width, self.rect_border_height)
@@ -105,8 +117,15 @@ class Snake(QWidget):
 
         self.update(qrect)
         #self.repaint()
-        if self.collision_tag == False and self.pause == False and self.death_tag != 4:
+        if self.collision_tag == False and self.pause == False and self.death_tag != 4 and self.press_key_tag == 1:
             self.move(self.slist, self.direction[0])
+            self.press_key_tag = 0
+            print('presskey and move')
+        elif self.collision_tag == False and self.pause == False and self.death_tag != 4 and self.press_key_tag == 0:
+            self.move(self.slist, self.direction[0])
+            print('no press and move')
+            self.press_key_tag = 1
+
         self.collision_tag = False
         #self.update(qrect)
         #self.repaint()
