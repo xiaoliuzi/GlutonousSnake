@@ -33,7 +33,7 @@ class Snake(QWidget):
     max_posy = (rect_border_height +gap_of_snake_body)
     head_list = [(x_init+snake_len), y_init] # initial snake head
     body_list = [x_init, y_init] # initial snake body
-    slist = [head_list, body_list]#initial snake coordinate
+    snake = [head_list, body_list]#initial snake coordinate
     fcoordinate_list = [(snake_len+x_init),(snake_len+y_init)]#initial food coordinate
 
     qp = QPainter() # general painter
@@ -61,11 +61,11 @@ class Snake(QWidget):
         self.qp.begin(self)
 
         self.drawRectangleBorder(self.qp)
-        self.drawSnake(self.qp, self.slist)
+        self.drawSnake(self.qp, self.snake)
         self.drawFood(self.qp)
 
         if self.death_tag == 4:#direction is 4 to show the snake is dead
-            self.drawDeadSnake(self.qp, self.slist)
+            self.drawDeadSnake(self.qp, self.snake)
 
         self.qp.end()
 
@@ -99,15 +99,15 @@ class Snake(QWidget):
     def myupdate(self):
         qrect = QRect(self.x_init, self.y_init, self.rect_border_width, self.rect_border_height)
 
-        self.collide(self.qp, self.slist)
+        self.collide(self.qp, self.snake)
         self.update(qrect)
         #self.repaint()
         if self.collision_tag == False and self.pause == False and self.death_tag != 4 and self.press_key_tag == 1:
-            self.move(self.slist, self.direction[0])
+            self.move(self.snake, self.direction[0])
             self.press_key_tag = 0
             print('presskey and move')
         elif self.collision_tag == False and self.pause == False and self.death_tag != 4 and self.press_key_tag == 0:
-            self.move(self.slist, self.direction[0])
+            self.move(self.snake, self.direction[0])
             print('no press and move')
             #self.press_key_tag = 1
 
@@ -115,68 +115,68 @@ class Snake(QWidget):
         self.update(qrect)
 
 
-    def move(self, slist, direction):
-        if (slist[0][0] <= self.max_posx and slist[0][0] >= self.x_init) and (slist[0][1] >= self.y_init and slist[0][1] <= self.max_posy):
+    def move(self, snake, direction):
+        if (snake[0][0] <= self.max_posx and snake[0][0] >= self.x_init) and (snake[0][1] >= self.y_init and snake[0][1] <= self.max_posy):
             #direction right
             if (direction == 0) :
             #last one disappear
-                del slist[-1]
-                head_list = [slist[0][0]+self.snake_len, slist[0][1]]
-                slist.insert(0, head_list)
+                del snake[-1]
+                head_list = [snake[0][0]+self.snake_len, snake[0][1]]
+                snake.insert(0, head_list)
             elif (direction == 1):
             #direction up
-                del slist[-1]
-                head_list = [slist[0][0], slist[0][1]-self.snake_len]
-                slist.insert(0, head_list)
+                del snake[-1]
+                head_list = [snake[0][0], snake[0][1]-self.snake_len]
+                snake.insert(0, head_list)
             elif (direction == 2):
             #direction down
-                del slist[-1]
-                head_list = [slist[0][0], slist[0][1]+self.snake_len]
-                slist.insert(0, head_list)
+                del snake[-1]
+                head_list = [snake[0][0], snake[0][1]+self.snake_len]
+                snake.insert(0, head_list)
             elif (direction == 3):
             #direction left
-                del slist[-1]
-                head_list = [slist[0][0]-self.snake_len, slist[0][1]]
-                slist.insert(0, head_list)
+                del snake[-1]
+                head_list = [snake[0][0]-self.snake_len, snake[0][1]]
+                snake.insert(0, head_list)
 
-    def collide(self, qp, slist):
+    def collide(self, qp, snake):
         #collise with border
-        if ((slist[0][1]+self.snake_len > self.max_posy) and (self.direction[0] == 2))  \
-            or ((slist[0][1]-self.snake_len < self.y_init) and (self.direction[0] == 1)) \
-            or ((slist[0][0]+self.snake_len > self.max_posx) and  (self.direction[0] == 0)) \
-            or  ((slist[0][0]-self.snake_len < self.x_init) and (self.direction[0] == 3)):
+        if ((snake[0][1]+self.snake_len > self.max_posy) and (self.direction[0] == 2))  \
+            or ((snake[0][1]-self.snake_len < self.y_init) and (self.direction[0] == 1)) \
+            or ((snake[0][0]+self.snake_len > self.max_posx) and  (self.direction[0] == 0)) \
+            or  ((snake[0][0]-self.snake_len < self.x_init) and (self.direction[0] == 3)):
             print('out of border')
-            self.dead(qp, slist)
+            self.dead(qp, snake)
             self.update()
 
         #collise with snake itself
-        if (([slist[0][0],slist[0][1]+self.snake_len] in slist) and (self.direction[0] == 2) and ([slist[0][0], slist[0][1]+self.snake_len] != [slist[1][0],slist[1][1]])) \
-        or (([slist[0][0],slist[0][1]-self.snake_len] in slist) and (self.direction[0] == 1) and ([slist[0][0], slist[0][1]-self.snake_len] != [slist[1][0],slist[1][1]])) \
-        or (([slist[0][0]+self.snake_len,slist[0][1]] in slist) and (self.direction[0] == 0) and ([slist[0][0]+self.snake_len, slist[0][1]] != [slist[1][0],slist[1][1]])) \
-        or (([slist[0][0]-self.snake_len,slist[0][1]] in slist) and (self.direction[0] == 3) and ([slist[0][0]-self.snake_len, slist[0][1]] != [slist[1][0],slist[1][1]])): 
-            self.dead(qp, slist)
+        if (([snake[0][0],snake[0][1]+self.snake_len] in snake) and (self.direction[0] == 2) and ([snake[0][0], snake[0][1]+self.snake_len] != [snake[1][0],snake[1][1]])) \
+        or (([snake[0][0],snake[0][1]-self.snake_len] in snake) and (self.direction[0] == 1) and ([snake[0][0], snake[0][1]-self.snake_len] != [snake[1][0],snake[1][1]])) \
+        or (([snake[0][0]+self.snake_len,snake[0][1]] in snake) and (self.direction[0] == 0) and ([snake[0][0]+self.snake_len, snake[0][1]] != [snake[1][0],snake[1][1]])) \
+        or (([snake[0][0]-self.snake_len,snake[0][1]] in snake) and (self.direction[0] == 3) and ([snake[0][0]-self.snake_len, snake[0][1]] != [snake[1][0],snake[1][1]])): 
+            self.dead(qp, snake)
 
         # collide with food
-        if ((slist[0][0] == self.fcoordinate_list[0]) and (slist[0][1]+self.snake_len == self.fcoordinate_list[1]) and (self.direction[0] == 2))    \
-        or ((slist[0][0] == self.fcoordinate_list[0]) and (slist[0][1]-self.snake_len == self.fcoordinate_list[1]) and (self.direction[0] == 1))    \
-        or ((slist[0][0]+self.snake_len == self.fcoordinate_list[0]) and (slist[0][1] == self.fcoordinate_list[1]) and (self.direction[0] == 0))    \
-        or ((slist[0][0]-self.snake_len == self.fcoordinate_list[0]) and (slist[0][1] == self.fcoordinate_list[1]) and (self.direction[0] == 3)):
+        if ((snake[0][0] == self.fcoordinate_list[0]) and (snake[0][1]+self.snake_len == self.fcoordinate_list[1]) and (self.direction[0] == 2))    \
+        or ((snake[0][0] == self.fcoordinate_list[0]) and (snake[0][1]-self.snake_len == self.fcoordinate_list[1]) and (self.direction[0] == 1))    \
+        or ((snake[0][0]+self.snake_len == self.fcoordinate_list[0]) and (snake[0][1] == self.fcoordinate_list[1]) and (self.direction[0] == 0))    \
+        or ((snake[0][0]-self.snake_len == self.fcoordinate_list[0]) and (snake[0][1] == self.fcoordinate_list[1]) and (self.direction[0] == 3)):
             #snake increases
-            slist.insert(0, self.fcoordinate_list)
+            snake.insert(0, self.fcoordinate_list)
             print ('food collision happen down')
             #draw next food
             self.generateFoodPos()
             self.collision_tag = True
 
-    def dead(self,qp, slist):
+    def dead(self,qp, snake):
         print ('snake dead!!!!!!!!!!!!!!!!!!')
         self.death_tag = 4
         self.food_timer.stop()# to avoid snake can move after death.
 
-    def drawDeadSnake(self, qp, slist):
+    def drawDeadSnake(self, qp, snake):
         qp.setBrush(QColor(0,255,0))
-        for i in range(0, len(slist)):
-            qp.drawRect(slist[i][0], slist[i][1], self.snake_food_size, self.snake_food_size)
+        for i in range(0, len(snake)):
+            qp.drawRect(snake[i][0], snake[i][1], self.snake_food_size, self.snake_food_size)
         
 
     def drawRectangleBorder(self, qp):
@@ -184,10 +184,10 @@ class Snake(QWidget):
         qp.setPen(color)
         qp.drawRect(self.x_init, self.y_init, self.rect_border_width, self.rect_border_height)
 
-    def drawSnake(self, qp, slist):
+    def drawSnake(self, qp, snake):
         qp.setBrush(QColor(0,0,0))
-        for i in range(0, len(slist)):
-            qp.drawRect(slist[i][0], slist[i][1], self.snake_food_size, self.snake_food_size)
+        for i in range(0, len(snake)):
+            qp.drawRect(snake[i][0], snake[i][1], self.snake_food_size, self.snake_food_size)
 
     def drawFood(self, qp):
         #print 'draw food'
@@ -201,7 +201,7 @@ class Snake(QWidget):
             x = random.choice(range(self.x_init, self.max_posx, self.snake_len))
             y = random.choice(range(self.y_init, self.max_posy, self.snake_len))
             self.fcoordinate_list = [x,y]
-            if self.fcoordinate_list in Snake.slist:
+            if self.fcoordinate_list in Snake.snake:
                 polymerrization = True
             else:
                 polymerrization = False
