@@ -3,12 +3,12 @@
 
 #include <QWidget>
 #include <QPainter>
-#include <game.h>
+
 #include <QString>
 #include <QColor>
 #include <QtGui>
-
-class Game;
+#include "constant.h"
+#include "game.h"
 
 class GameView : public QWidget
 {
@@ -26,6 +26,7 @@ public:
 signals:
 
 public slots:
+
 private:
     QPainter qpainter;
     Game *game;

@@ -1,8 +1,7 @@
 #include "game.h"
+#include <gameview.h>
 
-extern int timeout;
-extern QSize panel;
-extern QSize block;
+
 
 Game::Game(QObject *parent) : QObject(parent)
 {

@@ -2,14 +2,15 @@
 #define GAME_H
 
 #include <QObject>
-#include <gameview.h>
+
 #include <QVector>
 #include <QTimer>
-#include <constant.h>
+#include "constant.h"
 #include <ctime>
 
 
 class GameView;
+
 class Game : public QObject
 {
     Q_OBJECT

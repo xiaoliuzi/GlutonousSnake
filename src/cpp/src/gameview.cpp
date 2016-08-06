@@ -1,4 +1,5 @@
 #include "gameview.h"
+#include "game.h"
 
 
 GameView::GameView(QWidget *parent) : QWidget(parent)
@@ -24,13 +25,15 @@ void GameView::clear(){
     QColor color;
     color = QColor("black");
     qpainter.setPen(color);
-    qpainter.drawRect(0, 0, panel.width()*block.width(),
-                      panel.height()*block.height());
+    //qpainter.drawRect(0, 0, panel.width()*block.width(),
+                      //panel.height()*block.height());
+    qpainter.drawRect(0,0, 600, 400);
     color = QColor("white");
     qpainter.setBrush(color);
     //qpainter.drawRect(0, 0, scaled_sz(panel)[0], scaled_sz(panel)[1]);
-    qpainter.drawRect(0, 0, panel.width()*block.width(),
-                      panel.height()*block.height());
+    //qpainter.drawRect(0, 0, panel.width()*block.width(),
+                      //panel.height()*block.height());
+    qpainter.drawRect(0,0, 600, 400);
 }
 
 void GameView::paintEvent(){
