@@ -23,10 +23,6 @@ public:
     void drawSeed(QPoint  &seed, QColor c=QColor("gray"));
     void set_game(Game *g=NULL);
 
-signals:
-
-public slots:
-
 private:
     QPainter qpainter;
     Game *game;

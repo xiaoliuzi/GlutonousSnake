@@ -38,7 +38,7 @@ QVector<int> scaled_sz(QSize &sz){
     return v;
 }
 
-QVector<int> scaled_pt(QPoint p){
+QVector<int> scaled_pt(QPoint &p){
     QVector<int> v;
     v.push_back(p.x() * block.width());
     v.push_back(p.y() * block.height());

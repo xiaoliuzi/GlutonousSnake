@@ -20,8 +20,8 @@ extern int now();
 
 extern QVector<int> bsize();
 
-extern QVector<int> scaled_sz(int sz);
+extern QVector<int> scaled_sz(QSize sz);
 
-extern QVector<int> scaled_pt(QPoint p);
+extern QVector<int> scaled_pt(QPoint &p);
 
 #endif // CONSTANT_H

@@ -29,37 +29,6 @@ public:
     bool is_dead(QPoint new_head);
     QPoint& new_seed();
     void control(int code);
-#if 0
-    bool operator==(const QPoint& p1, const QPoint& p2) {
-      return p1.x() == p2.x() && p1.y() == p2.y();
-    }
-#endif
-
-    bool is_in(QPoint p, QVector<QPoint> s){
-
-        for (auto &it : s){
-            if(p.x() == it.x()
-                    && p.y() == it.y())
-                return true;
-        }
-
-        return false;
-
-    }
-   //考虑使用函数模板,实现简单的find
-#if 0
-    bool is_in(int *p, QMap<int,QPoint> s){
-
-        for (QMap<int, QPoint> &it : s){
-            if(p->x() == it.second.x()
-                    && p->y() == it.second.y())
-                return true;
-        }
-
-        return false;
-
-    }
-#endif
 
 signals:
 

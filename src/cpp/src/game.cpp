@@ -1,5 +1,5 @@
 #include "game.h"
-#include <gameview.h>
+#include "gameview.h"
 
 
 
@@ -86,18 +86,21 @@ void Game::one_step(){
 }
 
 bool Game::is_dead(QPoint new_head){
-    return (is_in(new_head,snake)
+    QVector<QPoint>::iterator it = qFind(snake.begin(), snake.end(), new_head);
+    return ((it != snake.end())
             && (new_head != *snake.begin())
             || new_head.x() < 0 || new_head.y() >= panel.width()
             || new_head.y() < 0 || new_head.y() >= panel.width());
 }
 
 QPoint& Game::new_seed(){
+    QVector<QPoint>::iterator it;
+
     srand(time(0));
     while (true){
         seed = QPoint(rand()%panel.width(),rand()%panel.height());
-        //if (snake.end() != std::find(snake.begin(), snake.end(), seed)) continue;
-        if (is_in(seed,snake)) continue;
+        it= qFind(snake.begin(), snake.end(), seed);
+        if (it != snake.end()) continue;
         else return seed;
     }
 }
@@ -118,9 +121,8 @@ void Game::control(int code){
         else
             start_timer();
     }
-    //if (directions.end()!= std::find(directions.begin(), directions.end(), code)){
-    //if (is_in(code, directions)){
-    {
+	QMap<int, QPoint>::iterator it = directions.find(code);
+    if (it != directions.end()){
         int olddir = curdir;
         curdir = code;
         if (olddir != curdir || ((now()-last_update) > timeout/4)){
