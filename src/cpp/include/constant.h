@@ -5,6 +5,7 @@
 #include <QSize>
 #include <ctime>
 #include <QVector>
+#include <QTime>
 
 extern int timeout;
 extern QSize panel;

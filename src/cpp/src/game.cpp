@@ -15,6 +15,7 @@ Game::Game(QObject *parent) : QObject(parent)
     view = NULL;
 }
 
+
 Game::~Game(){
 
 }
@@ -58,8 +59,8 @@ void Game::one_step(){
     if (new_head == *neck) {
         std::reverse(snake.begin(),snake.end());
 
-        head = snake.begin()-1;
-        neck = snake.begin()-2;
+        head = snake.end()-1;
+        neck = snake.end()-2;
         new_head = *head + d;
         if (new_head == *neck){
             curdir = opposite[curdir];
@@ -91,8 +92,8 @@ bool Game::is_dead(QPoint new_head){
     QVector<QPoint>::iterator it = qFind(snake.begin(), snake.end(), new_head);
     return ((it != snake.end())
             && (new_head != *snake.begin())
-            || new_head.x() < 0 || new_head.y() >= panel.width()
-            || new_head.y() < 0 || new_head.y() >= panel.width());
+            || new_head.x() < 0 || new_head.x() >= panel.width()
+            || new_head.y() < 0 || new_head.y() >= panel.height());
 }
 
 QPoint& Game::new_seed(){
@@ -112,12 +113,16 @@ void Game::control(int code){
     if (code == Qt::Key_Escape){
         view->close();
     }
-#if 0
+
     if (code == Qt::Key_R){
         Game new_game;
-        new_game.start(*(this->view));
+        qDebug() << "before start" << endl;
+
+        //new_game.start();
+
+        qDebug() << "start success" << endl;
     }
-#endif
+
     if (dead_()) return;
     if (code == Qt::Key_Space){
         if (timer->isActive())

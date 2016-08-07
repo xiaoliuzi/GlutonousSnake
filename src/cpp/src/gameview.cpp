@@ -26,7 +26,6 @@ void GameView::clear(){
     QColor color;
     color = QColor("black");
     qpainter.setPen(color);
-
     qpainter.drawRect(0, 0, scaled_sz(panel)[0], scaled_sz(panel)[1]);
     color = QColor("white");
     qpainter.setBrush(color);
