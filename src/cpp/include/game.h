@@ -34,7 +34,8 @@ signals:
 
 public slots:
     void one_step();
-private:
+//private:
+public:
     int last_update;
     int score;
     QTimer *timer = new QTimer(this);

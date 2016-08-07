@@ -16,8 +16,9 @@ class GameView : public QWidget
 public:
     explicit GameView(QWidget *parent = 0);
     void update();
-    void paintEvent();
+    void paintEvent(QPaintEvent *event);
     void keyReleaseEvent(QKeyEvent *event=NULL);
+
     void clear();
     void drawSnake(QVector<QPoint>  &snake, QColor c=QColor("gray"));
     void drawSeed(QPoint  &seed, QColor c=QColor("gray"));

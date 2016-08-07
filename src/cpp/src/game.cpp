@@ -50,15 +50,16 @@ void Game::start(GameView &v){
 
 void Game::one_step(){
     QPoint d, new_head;
-    QVector<QPoint>::reverse_iterator neck, head;
+    QVector<QPoint>::iterator neck, head;
     d = directions[curdir];
-    head = snake.rbegin();
-    neck = snake.rbegin()-1;
+    head = snake.end()-1;
+    neck = snake.end()-2;
     new_head = *head + d;
     if (new_head == *neck) {
         std::reverse(snake.begin(),snake.end());
-        head = snake.rbegin();
-        neck = snake.rbegin()-1;
+
+        head = snake.begin()-1;
+        neck = snake.begin()-2;
         new_head = *head + d;
         if (new_head == *neck){
             curdir = opposite[curdir];
@@ -67,11 +68,12 @@ void Game::one_step(){
         }
     }
     if (is_dead(new_head)){
+        qDebug() << "snake is dead" << endl;
         dead = true;
         view->update();
         stop_timer();
+        return;
     }
-    //if (new_head == seed){
     if(new_head.x() == seed.x() &&
             new_head.y() == seed.y()){
         new_seed();
@@ -110,10 +112,12 @@ void Game::control(int code){
     if (code == Qt::Key_Escape){
         view->close();
     }
+#if 0
     if (code == Qt::Key_R){
         Game new_game;
         new_game.start(*(this->view));
     }
+#endif
     if (dead_()) return;
     if (code == Qt::Key_Space){
         if (timer->isActive())

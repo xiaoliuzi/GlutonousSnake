@@ -15,7 +15,7 @@ void GameView::set_game(Game *g){
 void GameView::update(){
     QWidget::update();
     if (game->dead_()){
-        this->setWindowTitle("Snake Game OverP");
+        this->setWindowTitle("Snake Game Over");
     }
     else{
         this->setWindowTitle("Snake score =" + QString::number(game->score_(),10));
@@ -26,19 +26,15 @@ void GameView::clear(){
     QColor color;
     color = QColor("black");
     qpainter.setPen(color);
-    //qpainter.drawRect(0, 0, panel.width()*block.width(),
-                      //panel.height()*block.height());
-    //qpainter.drawRect(0,0, 600, 400);
+
     qpainter.drawRect(0, 0, scaled_sz(panel)[0], scaled_sz(panel)[1]);
     color = QColor("white");
     qpainter.setBrush(color);
     qpainter.drawRect(0, 0, scaled_sz(panel)[0], scaled_sz(panel)[1]);
-    //qpainter.drawRect(0, 0, panel.width()*block.width(),
-                      //panel.height()*block.height());
-   // qpainter.drawRect(0,0, 600, 400);
+
 }
 
-void GameView::paintEvent(){
+void GameView::paintEvent(QPaintEvent *event){
     qpainter.begin(this);
     QColor color;
     clear();
@@ -51,11 +47,14 @@ void GameView::paintEvent(){
 
 void GameView::keyReleaseEvent(QKeyEvent *e){
     int code = e->key();
+    //qDebug() << "key code is: " << code << endl;
     game->control(code);
+
 }
 
 void GameView::drawSnake( QVector<QPoint> &snake, QColor color){
-    color = QColor("black");
+    if (color != QColor("gray"))
+        color = QColor("black");
     qpainter.setPen(Qt::NoPen);
     qpainter.setBrush(color);
     for (auto &it:snake){
@@ -65,7 +64,8 @@ void GameView::drawSnake( QVector<QPoint> &snake, QColor color){
 }
 
 void GameView::drawSeed( QPoint &seed, QColor color){
-    color = QColor("red");
+    if (color != QColor("gray"))
+        color = QColor("red");
     qpainter.setPen(Qt::NoPen);
     qpainter.setBrush(color);
     qpainter.drawRect(scaled_pt(seed)[0], scaled_pt(seed)[1],

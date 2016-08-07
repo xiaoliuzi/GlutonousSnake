@@ -10,7 +10,7 @@ QMap<int, QPoint> directions = {
     {Qt::Key_Left,	QPoint(-1,   0)},
     {Qt::Key_Right,	QPoint( 1,   0)},
     {Qt::Key_Up,	QPoint( 0,  -1)},
-    {Qt::Key_Left,	QPoint( 0,   1)}
+    {Qt::Key_Down,	QPoint( 0,   1)}
 };
 
 QMap<int, int> opposite = {
@@ -19,6 +19,8 @@ QMap<int, int> opposite = {
     {Qt::Key_Up, 	Qt::Key_Down},
     {Qt::Key_Down, 	Qt::Key_Up}
 };
+
+
 
 int now(){
     return time(0);
