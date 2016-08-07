@@ -23,7 +23,8 @@ QMap<int, int> opposite = {
 
 
 int now(){
-    return time(0);
+    //return time(0);
+    return QTime::currentTime().msecsSinceStartOfDay();
 }
 
 QVector<int> bsize(){
