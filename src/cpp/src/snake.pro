@@ -16,11 +16,13 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     gameview.cpp \
     game.cpp \
-    constant.cpp
+    constant.cpp \
+    test.cpp
 
 HEADERS  += mainwindow.h \
     constant.h \
     gameview.h \
-    game.h
+    game.h \
+    test.h
 
 FORMS    += mainwindow.ui

@@ -1,5 +1,6 @@
 #include "game.h"
 #include "gameview.h"
+#include "test.h"
 
 
 
@@ -40,7 +41,6 @@ void Game::stop_timer(){
 }
 
 void Game::start(GameView &v){
-
     v.set_game(this);
     view = &v;
 
@@ -69,7 +69,6 @@ void Game::one_step(){
         }
     }
     if (is_dead(new_head)){
-        qDebug() << "snake is dead" << endl;
         dead = true;
         view->update();
         stop_timer();
@@ -115,12 +114,9 @@ void Game::control(int code){
     }
 
     if (code == Qt::Key_R){
-        Game new_game;
-        qDebug() << "before start" << endl;
-
-        //new_game.start();
-
-        qDebug() << "start success" << endl;
+        Game *new_game = new Game();
+        new_game->start(*(this->view));
+        delete this;
     }
 
     if (dead_()) return;
